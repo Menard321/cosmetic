@@ -4,7 +4,7 @@
             <span class="material-symbols-outlined text-sm">person_add</span>
             <span class="text-[10px] uppercase font-bold tracking-[0.2em]">Membership Registration</span>
         </div>
-        <h2 class="heading-font text-4xl text-on-surface mb-2">Join Silk Beauty</h2>
+        <h2 class="heading-font text-4xl text-on-surface mb-2">Join Angels Beauty</h2>
         <p class="text-on-surface-variant text-sm font-light">Register to access exclusive collections and tracking.</p>
     </div>
 

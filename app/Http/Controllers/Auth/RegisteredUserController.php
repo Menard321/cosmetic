@@ -48,8 +48,7 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
-
-        return redirect(route('home'));
+        // Redirect back to login form instead of auto-logging in
+        return redirect(route('login'))->with('status', 'Registration successful! Please log in with your new account.');
     }
 }

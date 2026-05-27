@@ -24,12 +24,28 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'two_factor_code',
-        'two_factor_expires_at',
+        'phone',
+        'role',
         'loyalty_points',
-        'is_banned',
-        'customer_segment'
+        'loyalty_level',
     ];
+
+    /**
+     * Get the user's loyalty level based on points.
+     */
+    public function calculateLoyaltyLevel()
+    {
+        $points = $this->loyalty_points;
+        if ($points >= 10000) return 'Platinum';
+        if ($points >= 5000) return 'Gold';
+        if ($points >= 1000) return 'Silver';
+        return 'Bronze';
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(LoyaltyTransaction::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.

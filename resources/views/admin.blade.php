@@ -121,8 +121,8 @@
 </div>
 <div>
 <p class="text-label-md font-semibold">New Vendor Approved</p>
-<p class="text-label-sm text-on-surface-variant">Lulu Organics Arusha has been verified.</p>
-<p class="text-[10px] text-outline mt-1 uppercase">2 Minutes ago</p>
+<p class="text-label-sm text-on-surface-variant">Angels Organics Arusha has been verified.</p>
+<p class="text-[10px] text-outline mt-1 uppercase">2 Minutes ago</p>a
 </div>
 </div>
 <div class="flex gap-4">

@@ -3,10 +3,24 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ConsultationController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect('/home');
+// Footer Pages
+Route::get('/brand-story', [App\Http\Controllers\PageController::class, 'brandStory'])->name('pages.brand-story');
+Route::get('/store-locator', [App\Http\Controllers\PageController::class, 'storeLocator'])->name('pages.store-locator');
+Route::get('/mpesa-guide', [App\Http\Controllers\PageController::class, 'mpesaGuide'])->name('pages.mpesa-guide');
+Route::get('/shipping-policy', [App\Http\Controllers\PageController::class, 'shippingPolicy'])->name('pages.shipping-policy');
+Route::get('/return-policy', [App\Http\Controllers\PageController::class, 'returnPolicy'])->name('pages.return-policy');
+Route::get('/privacy-policy', [App\Http\Controllers\PageController::class, 'privacyPolicy'])->name('pages.privacy-policy');
+Route::get('/contact-us', [App\Http\Controllers\PageController::class, 'contactUs'])->name('pages.contact');
+Route::get('/track-order', [App\Http\Controllers\PageController::class, 'trackOrder'])->name('pages.track-order');
+Route::post('/track-order/search', [App\Http\Controllers\PageController::class, 'trackOrderSearch'])->name('pages.track-order.search');
+
+// Loyalty System
+Route::middleware(['auth'])->group(function () {
+    Route::get('/loyalty', [App\Http\Controllers\LoyaltyController::class, 'dashboard'])->name('customer.loyalty');
+    Route::post('/loyalty/redeem/{reward}', [App\Http\Controllers\LoyaltyController::class, 'redeem'])->name('customer.loyalty.redeem');
 });
 
 // Temporary dev route to gain admin access
@@ -23,6 +37,10 @@ Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name(
 // Role-Protected Dashboards
 Route::middleware(['auth', 'role:admin|super-admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.page');
+
+    // Admin Consultation Management
+    Route::get('admin/consultations', [ConsultationController::class, 'adminIndex'])->name('admin.consultations.index');
+    Route::patch('admin/consultations/{consultation}/status', [ConsultationController::class, 'updateStatus'])->name('admin.consultations.updateStatus');
     
     // Inventory Control
     Route::get('admin/inventory', [\App\Http\Controllers\Admin\InventoryController::class, 'index'])->name('admin.inventory.index');
@@ -82,15 +100,26 @@ Route::delete('/remove-from-cart', [App\Http\Controllers\CartController::class, 
 // Checkout Routes
 Route::get('/checkout', [App\Http\Controllers\CheckoutController::class, 'index'])->middleware('auth')->name('checkout.index');
 Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'store'])->middleware('auth')->name('checkout.store');
+Route::post('/order/{order}/verify-payment', [App\Http\Controllers\CheckoutController::class, 'verifyPaymentStatus'])->middleware('auth')->name('order.verify-payment');
+
+// Consultation Routes (authenticated users)
+Route::middleware('auth')->group(function () {
+    Route::get('/consultation/book', [ConsultationController::class, 'create'])->name('consultation.create');
+    Route::post('/consultation/book', [ConsultationController::class, 'store'])->name('consultation.store');
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\CustomerController::class, 'dashboard'])->name('dashboard');
-    Route::get('/customer/orders', [App\Http\Controllers\CustomerController::class, 'orders'])->name('customer.orders');
-    Route::get('/customer/wishlist', [App\Http\Controllers\CustomerController::class, 'wishlist'])->name('customer.wishlist');
+    Route::get('/orders', [App\Http\Controllers\CustomerController::class, 'orders'])->name('customer.orders');
+    Route::get('/orders/{order}', [App\Http\Controllers\CustomerController::class, 'showOrder'])->name('customer.orders.show');
+    Route::get('/wishlist', [App\Http\Controllers\CustomerController::class, 'wishlist'])->name('customer.wishlist');
     Route::get('/customer/addresses', [App\Http\Controllers\CustomerController::class, 'addresses'])->name('customer.addresses');
     Route::get('/customer/notifications', [App\Http\Controllers\CustomerController::class, 'notifications'])->name('customer.notifications');
     Route::get('/customer/loyalty', [App\Http\Controllers\CustomerController::class, 'loyalty'])->name('customer.loyalty');
 });
+
+// Beauty AI Route
+Route::post('/beauty-ai/chat', [App\Http\Controllers\AIController::class, 'chat'])->name('beauty-ai.chat');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -99,3 +128,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/{any}', function () {
+    return redirect()->route('home');
+})->where('any', '.*');

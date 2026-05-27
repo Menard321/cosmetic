@@ -3,7 +3,7 @@
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Enterprise Admin - Silk Beauty</title>
+<title>Enterprise Admin - Angels Beauty</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -107,7 +107,7 @@
 <!-- SideNavBar (Authority Source: JSON) -->
 <aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container border-r border-outline-variant flex flex-col py-stack-md z-50">
 <div class="px-6 mb-10">
-<h1 class="font-headline-sm text-headline-sm text-primary">Silk Admin</h1>
+<h1 class="font-headline-sm text-headline-sm text-primary">Angels Admin</h1>
 <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Enterprise Portal</p>
 </div>
     <nav class="flex-grow space-y-2">
@@ -128,7 +128,7 @@
             <span class="material-symbols-outlined">inventory_2</span>
             <span class="font-label-md text-label-md">Product Catalog</span>
         </a>
-        <a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-xl mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-98" href="#">
+        <a class="{{ request()->routeIs('admin.vendors.*') ? 'bg-primary-container text-on-primary-container' : 'text-on-surface-variant hover:bg-surface-variant/50' }} rounded-xl mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-98" href="#">
             <span class="material-symbols-outlined">handshake</span>
             <span class="font-label-md text-label-md">Vendor Management</span>
         </a>
@@ -136,9 +136,17 @@
             <span class="material-symbols-outlined">warehouse</span>
             <span class="font-label-md text-label-md">Inventory Control</span>
         </a>
+        <a class="{{ request()->routeIs('admin.consultations.*') ? 'bg-primary-container text-on-primary-container' : 'text-on-surface-variant hover:bg-surface-variant/50' }} rounded-xl mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-98" href="{{ route('admin.consultations.index') }}">
+            <span class="material-symbols-outlined">spa</span>
+            <span class="font-label-md text-label-md flex-1">Consultations</span>
+            @php $pendingCount = \App\Models\Consultation::where('status','pending')->count(); @endphp
+            @if($pendingCount > 0)
+                <span class="bg-primary text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">{{ $pendingCount }}</span>
+            @endif
+        </a>
     </nav>
     <div class="mt-auto border-t border-outline-variant pt-4">
-        <a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-xl mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all" href="{{ route('profile.edit') }}">
+        <a class="{{ request()->routeIs('profile.*') ? 'bg-primary-container text-on-primary-container' : 'text-on-surface-variant hover:bg-surface-variant/50' }} rounded-xl mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all" href="{{ route('profile.edit') }}">
             <span class="material-symbols-outlined">settings</span>
             <span class="font-label-md text-label-md">Settings</span>
         </a>
@@ -183,8 +191,8 @@
 <footer class="ml-64 bg-surface border-t border-outline-variant py-stack-lg">
 <div class="grid grid-cols-2 md:grid-cols-4 gap-gutter px-margin-desktop max-w-container-max mx-auto">
 <div>
-<h5 class="font-headline-sm text-headline-sm text-on-surface mb-4">Lulu Beauty</h5>
-<p class="font-body-md text-on-surface-variant text-label-md">© 2024 Silk Beauty Tanzania. All Rights Reserved.</p>
+<h5 class="font-headline-sm text-headline-sm text-on-surface mb-4">Angels Beauty</h5>
+<p class="font-body-md text-on-surface-variant text-label-md">© 2023 Angels Beauty Tanzania. All Rights Reserved.</p>
 </div>
 <div>
 <h6 class="font-label-md text-label-md text-primary uppercase mb-4">Company</h6>

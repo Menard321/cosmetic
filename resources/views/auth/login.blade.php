@@ -1,85 +1,421 @@
-<x-guest-layout>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tynorosa Cosmetics | Authentication</title>
+    <!-- Google Fonts for Elegant Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Form Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- INTERNAL CSS -->
     <style>
-        /* Override guest layout grid for centered card feel */
-        .auth-grid { display: block !important; }
-        .auth-image-side { display: none !important; }
-        .auth-form-side { 
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/cosmetic_auth_split_bg_1779205834623.png') !important;
-            background-size: cover !important;
-            background-position: center !important;
+        /* --- Global Resets & Styling --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            /* Soft aesthetic backdrop mimicking the original image vibe */
+            background: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45)), 
+                        url('https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=1920') no-repeat center center/cover;
+            padding: 20px;
         }
-        .form-container {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            padding: 48px !important;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            max-width: 460px !important;
+
+        /* --- Container Structure --- */
+        .auth-container {
+            width: 100%;
+            max-width: 1050px;
+            display: flex;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 12px;
+            overflow: hidden;
             margin: auto;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
         }
-        .auth-btn-primary {
-            background: linear-gradient(135deg, #735c00 0%, #a68c36 100%);
-            border-radius: 4px;
+
+        /* --- Left Side Brand Panel --- */
+        .brand-panel {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .logo {
+            margin-bottom: 30px;
+        }
+
+        .logo i {
+            font-size: 3rem;
+            color: #bc8e83;
+            margin-bottom: 10px;
+        }
+
+        .logo h1 {
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: 6px;
+            color: #333;
+        }
+
+        .logo span {
+            font-size: 0.8rem;
+            letter-spacing: 8px;
+            color: #777;
+        }
+
+        .brand-panel h2 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: #444;
+        }
+
+        /* --- Right Side Form Panel --- */
+        .form-panel {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .form-box {
+            width: 100%;
+            max-width: 420px;
+            background: #fdfaf4; /* Elegant warm ivory tone from the image */
+            padding: 35px 30px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .form-box h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            color: #2c2c2c;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-box h3 span {
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        /* --- Input Group & Fields --- */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            color: #888;
+            font-size: 0.95rem;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid #e0d8d0;
+            border-radius: 6px;
+            background-color: #ffffff;
+            font-size: 0.9rem;
+            color: #333;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .input-wrapper input:focus {
+            border-color: #bc8e83;
+        }
+
+        /* --- Checkbox and Links --- */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 0.8rem;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            color: #555;
+            user-select: none;
+        }
+
+        .checkbox-container input {
+            margin-right: 8px;
+            accent-color: #bc8e83;
+        }
+
+        .checkbox-container a, .forgot-link, .switch-form-text a {
+            color: #222;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .checkbox-container a:hover, .forgot-link:hover, .switch-form-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Action Button --- */
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: #bc8e83; /* Soft Muted Dusty Rose */
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #a8796f;
+        }
+
+        .switch-form-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* --- Utilities --- */
+        .hidden {
+            display: none !important;
+        }
+
+        footer {
+            width: 100%;
+            text-align: center;
+            padding: 15px;
+            font-size: 0.75rem;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+            letter-spacing: 1px;
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 768px) {
+            .auth-container {
+                flex-direction: column;
+                background: transparent;
+                box-shadow: none;
+                backdrop-filter: none;
+            }
+            .brand-panel {
+                padding: 20px 0;
+            }
+            .brand-panel .logo h1 {
+                color: #fff;
+                text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            }
+            .brand-panel .logo span, .brand-panel h2 {
+                color: #fff;
+            }
+            .form-panel {
+                padding: 10px 0;
+            }
         }
     </style>
+</head>
+<body>
 
-    <div class="text-center mb-10">
-        <h2 class="heading-font text-3xl text-on-surface mb-2">Member Login</h2>
-        <p class="text-on-surface-variant text-[10px] uppercase font-bold tracking-[0.3em]">Secure Gateway Access</p>
+    <div class="auth-container">
+        <!-- LEFT SIDE: Brand Presentation -->
+        <div class="brand-panel">
+            <div class="brand-content">
+                <div class="logo">
+                    <i class="fa-solid fa-spa"></i>
+                    <h1>TYNOROSA</h1>
+                    <span>COSMETICS</span>
+                </div>
+                <h2>SIGN IN TO YOUR BEAUTY PORTAL</h2>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE: Form Panel -->
+        <div class="form-panel">
+            
+            <!-- LOGIN FORM -->
+            <div class="form-box @if($errors->has('name') || $errors->has('password_confirmation')) hidden @endif" id="login-box">
+                <h3>LOGIN FORM:</h3>
+                
+                @if (session('status'))
+                    <div style="color: #3c763d; background: #dff0d8; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 0.85rem; border: 1px solid #d6e9c6; text-align: center;">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                @if ($errors->any() && !$errors->has('name') && !$errors->has('password_confirmation'))
+                    <div style="color: #d9534f; background: #fdf7f7; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 0.85rem; border: 1px solid #ebccd1;">
+                        <ul style="list-style: none; padding: 0;">
+                            @foreach ($errors->all() as $error)
+                                <li>- {{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('login') }}" method="POST">
+                    @csrf
+                    <div class="input-group">
+                        <label for="login-email">Username or Email</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-user"></i>
+                            <input type="email" name="email" id="login-email" placeholder="example@email.com" value="{{ old('email') }}" required autofocus>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="login-password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" name="password" id="login-password" placeholder="********" required autocomplete="current-password">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="remember" id="remember_me">
+                            Stay Signed In
+                        </label>
+                        @if (Route::has('password.request'))
+                            <a href="{{ route('password.request') }}" class="forgot-link">Forgot Password?</a>
+                        @endif
+                    </div>
+
+                    <button type="submit" class="btn-submit">LOG IN</button>
+                </form>
+                <p class="switch-form-text">New to Luminance? <a href="#" id="to-register">[Register Now]</a></p>
+            </div>
+
+            <!-- REGISTRATION FORM -->
+            <div class="form-box @if(!$errors->has('name') && !$errors->has('password_confirmation')) hidden @endif" id="register-box">
+                <h3>REGISTRATION FORM:<br><span>JOIN OUR BEAUTY COMMUNITY</span></h3>
+                
+                @if ($errors->any() && ($errors->has('name') || $errors->has('password_confirmation') || $errors->has('email')))
+                    <div style="color: #d9534f; background: #fdf7f7; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 0.85rem; border: 1px solid #ebccd1;">
+                        <ul style="list-style: none; padding: 0;">
+                            @foreach ($errors->all() as $error)
+                                <li>- {{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('register') }}" method="POST">
+                    @csrf
+                    <div class="input-group">
+                        <label for="reg-name">Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-user"></i>
+                            <input type="text" name="name" id="reg-name" placeholder="Jane Doe" value="{{ old('name') }}" required autofocus>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="reg-email">Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-envelope"></i>
+                            <input type="email" name="email" id="reg-email" placeholder="janedoe@email.com" value="{{ old('email') }}" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="reg-password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" name="password" id="reg-password" placeholder="Minimum 8 characters" required autocomplete="new-password">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="reg-confirm">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" name="password_confirmation" id="reg-confirm" placeholder="••••••••" required autocomplete="new-password">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <label class="checkbox-container">
+                            <input type="checkbox" required>
+                            I agree to the <a href="#">[Terms & Conditions]</a> and <a href="#">[Privacy Policy]</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-submit">REGISTER AS BEAUTY MEMBER</button>
+                </form>
+                <p class="switch-form-text">Already a member? <a href="#" id="to-login">[Sign In]</a></p>
+            </div>
+
+        </div>
     </div>
 
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    <footer>
+        <p>&copy; 2026 Luminance Cosmetics. All rights reserved.</p>
+    </footer>
 
-    <form method="POST" action="{{ route('login') }}" class="space-y-6">
-        @csrf
+    <!-- JavaScript Toggle Logic -->
+    <script>
+        const loginBox = document.getElementById('login-box');
+        const registerBox = document.getElementById('register-box');
+        const toRegister = document.getElementById('to-register');
+        const toLogin = document.getElementById('to-login');
 
-        <!-- Email Address -->
-        <div class="space-y-2">
-            <label for="email" class="text-[10px] uppercase font-bold tracking-widest text-gray-500">Registered Email</label>
-            <div class="relative">
-                <input id="email" class="w-full bg-gray-50 border border-gray-200 p-3 pl-10 text-sm focus:border-primary focus:ring-0 outline-none transition-all" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="name@email.com" />
-                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">mail</span>
-            </div>
-            <x-input-error :messages="$errors->get('email')" class="mt-1" />
-        </div>
+        toRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginBox.classList.add('hidden');
+            registerBox.classList.remove('hidden');
+        });
 
-        <!-- Password -->
-        <div class="space-y-2">
-            <div class="flex justify-between items-center">
-                <label for="password" class="text-[10px] uppercase font-bold tracking-widest text-gray-500">Security Key</label>
-                @if (Route::has('password.request'))
-                    <a class="text-[9px] text-primary font-bold uppercase tracking-widest hover:underline" href="{{ route('password.request') }}">
-                        Reset
-                    </a>
-                @endif
-            </div>
-            <div class="relative">
-                <input id="password" class="w-full bg-gray-50 border border-gray-200 p-3 pl-10 text-sm focus:border-primary focus:ring-0 outline-none transition-all"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password"
-                                placeholder="••••••••" />
-                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">lock</span>
-            </div>
-            <x-input-error :messages="$errors->get('password')" class="mt-1" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="flex items-center">
-            <input id="remember_me" type="checkbox" class="w-3 h-3 text-primary border-gray-300 focus:ring-0" name="remember">
-            <label for="remember_me" class="ml-3 text-[10px] text-on-surface-variant uppercase tracking-widest cursor-pointer">Stay Signed In</label>
-        </div>
-
-        <button type="submit" class="auth-btn-primary">
-            Authenticate & Enter
-        </button>
-
-        <div class="pt-8 border-t border-gray-100 text-center">
-            <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-4">New to Silk Beauty?</p>
-            <a href="{{ route('register') }}" class="text-xs font-bold text-gray-900 border-b-2 border-primary pb-1 hover:text-primary transition-all">
-                CREATE MEMBERSHIP
-            </a>
-        </div>
-    </form>
-</x-guest-layout>
+        toLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerBox.classList.add('hidden');
+            loginBox.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>

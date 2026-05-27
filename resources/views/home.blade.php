@@ -10,7 +10,7 @@
 <div class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
 <div class="max-w-2xl">
 <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-stack-md leading-tight">
-                        The Art of <br/><span class="text-primary italic">Tynorosa Beauty</span>
+                        The Art of <br/><span class="text-primary italic">Angels Beauty</span>
 </h1>
 <p class="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg max-w-md">
                         Discover a curated collection of global luxury and local radiance, tailored for the sophisticated Tanzanian spirit.
@@ -83,7 +83,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div class="p-8 bg-white border border-outline-variant/30 relative">
                 <span class="material-symbols-outlined text-primary-fixed text-4xl absolute -top-5 left-1/2 -translate-x-1/2 bg-white px-2">format_quote</span>
-                <p class="italic text-on-surface-variant font-body-md mb-6 pt-4">"Silk Beauty has transformed my daily skincare routine. The authenticity of the products is unmatched in Dar."</p>
+                <p class="italic text-on-surface-variant font-body-md mb-6 pt-4">"Angels  Beauty has transformed my daily skincare routine. The authenticity of the products is unmatched in Dar."</p>
                 <div class="mt-4">
                     <p class="font-bold text-on-surface uppercase text-xs tracking-widest">Amina Juma</p>
                     <p class="text-[10px] text-primary">Gold Member</p>
@@ -194,7 +194,7 @@
                         <span class="font-label-md uppercase tracking-widest">24/7 Expert Support</span>
                     </div>
                 </div>
-                <button class="mt-12 border border-white text-white px-12 py-4 font-label-md uppercase tracking-widest hover:bg-white hover:text-on-background transition-all">Book Consultation</button>
+                <a href="{{ route('consultation.create') }}" class="mt-12 inline-block border border-white text-white px-12 py-4 font-label-md uppercase tracking-widest hover:bg-white hover:text-on-background transition-all">Book Consultation</a>
             </div>
         </div>
     </div>

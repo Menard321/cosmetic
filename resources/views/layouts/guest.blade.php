@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Silk Beauty') }}</title>
+        <title>{{ config('app.name', 'Angels Beauty') }}</title>
 
         <!-- Fonts: Playfair Display for headings, Inter for body -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -185,7 +185,7 @@
         <div class="auth-grid">
             <!-- Left Side: Cinematic Image -->
             <div class="auth-image-side">
-                <img src="/cosmetic_auth_split_bg_1779205834623.png" alt="Silk Beauty Luxury">
+                <img src="/cosmetic_auth_split_bg_1779205834623.png" alt="Angels Beauty Luxury">
                 <div class="auth-image-overlay">
                     <h2 class="heading-font text-5xl mb-4">Timeless Radiance.</h2>
                     <p class="text-white/80 font-light tracking-wide max-w-sm">Join our exclusive community of beauty enthusiasts in Tanzania and discover a world of authentic luxury products.</p>

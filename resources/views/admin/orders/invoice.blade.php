@@ -23,7 +23,7 @@
 
     <div class="header">
         <div>
-            <div class="logo">Silk Beauty Tanzania</div>
+            <div class="logo">Angels Beauty Tanzania</div>
             <p>Quality Cosmetics & Radiance</p>
         </div>
         <div style="text-align: right;">
@@ -72,8 +72,8 @@
     </div>
 
     <div class="footer">
-        <p>Thank you for choosing Silk Beauty. For any inquiries, call +255 123 456 789</p>
-        <p>This is a computer-generated invoice from Silk Beauty Tanzania ERP System.</p>
+        <p>Thank you for choosing Angels Beauty. For any inquiries, call +255 74746 1380</p>
+        <p>This is a computer-generated invoice from Angels Beauty Tanzania ERP System.</p>
     </div>
 </body>
 </html>

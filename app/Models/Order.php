@@ -13,8 +13,13 @@ class Order extends Model
         'payment_method', 
         'total_amount', 
         'status',
+        'payment_status',
+        'payment_reference',
         'delivery_status',
         'delivery_address',
+        'latitude',
+        'longitude',
+        'delivery_notes',
         'rider_id'
     ];
 
