@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('loyalty_points')->default(0)->after('email');
             $table->string('loyalty_level')->default('Bronze')->after('loyalty_points');
         });
     }
@@ -23,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['loyalty_points', 'loyalty_level']);
+            $table->dropColumn(['loyalty_level']);
         });
     }
 };

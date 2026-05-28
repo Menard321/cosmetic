@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tynorosa Cosmetics | Authentication</title>
+    <title>Angels Cosmetics</title>
     <!-- Google Fonts for Elegant Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -268,8 +268,8 @@
             <div class="brand-content">
                 <div class="logo">
                     <i class="fa-solid fa-spa"></i>
-                    <h1>TYNOROSA</h1>
-                    <span>COSMETICS</span>
+                    <h1>ANGELS</h1>
+                    <span>BEAUTY</span>
                 </div>
                 <h2>SIGN IN TO YOUR BEAUTY PORTAL</h2>
             </div>
@@ -328,12 +328,12 @@
 
                     <button type="submit" class="btn-submit">LOG IN</button>
                 </form>
-                <p class="switch-form-text">New to Luminance? <a href="#" id="to-register">[Register Now]</a></p>
+                <p class="switch-form-text">New to Angels? <a href="#" id="to-register">[Register Now]</a></p>
             </div>
 
             <!-- REGISTRATION FORM -->
             <div class="form-box @if(!$errors->has('name') && !$errors->has('password_confirmation')) hidden @endif" id="register-box">
-                <h3>REGISTRATION FORM:<br><span>JOIN OUR BEAUTY COMMUNITY</span></h3>
+                <h3>REGISTRATION FORM:<br><span>JOIN OUR ANGELS BEAUTY COMMUNITY</span></h3>
                 
                 @if ($errors->any() && ($errors->has('name') || $errors->has('password_confirmation') || $errors->has('email')))
                     <div style="color: #d9534f; background: #fdf7f7; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 0.85rem; border: 1px solid #ebccd1;">
@@ -351,7 +351,7 @@
                         <label for="reg-name">Full Name</label>
                         <div class="input-wrapper">
                             <i class="fa-regular fa-user"></i>
-                            <input type="text" name="name" id="reg-name" placeholder="Jane Doe" value="{{ old('name') }}" required autofocus>
+                            <input type="text" name="name" id="reg-name" placeholder="user name" value="{{ old('name') }}" required autofocus>
                         </div>
                     </div>
 
@@ -395,7 +395,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Luminance Cosmetics. All rights reserved.</p>
+        <p>&copy; 2023 Angels Cosmetics. All rights reserved.</p>
     </footer>
 
     <!-- JavaScript Toggle Logic -->

@@ -123,10 +123,10 @@
 </div>
 </div>
 <div class="flex items-center gap-4">
-<div class="hidden lg:flex items-center bg-surface-container-high rounded-full px-4 py-2 w-64">
-<span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-label-md w-full" placeholder="Search brands..." type="text"/>
-</div>
+            <form action="{{ route('products.index') }}" method="GET" class="hidden lg:flex items-center bg-surface-container-high rounded-full px-4 py-2 w-64">
+                <span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
+                <input name="q" value="{{ request('q') }}" class="bg-transparent border-none focus:ring-0 text-label-md w-full" placeholder="Search brands..." type="text"/>
+            </form>
 <div class="flex gap-2 md:gap-4">
 <a href="{{ route('customer.wishlist') }}" class="hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform"><span class="material-symbols-outlined">favorite</span></a>
 <a href="{{ route('cart.index') }}" class="hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform relative">

@@ -105,7 +105,7 @@
             <!-- Brand Header -->
             <div class="text-center mb-10">
                 <a href="/" class="heading-font text-4xl font-bold tracking-tighter text-gray-900">
-                    Silk <span class="text-primary italic">Beauty</span>
+                   <span class="text-primary italic">Angels Beauty</span>
                 </a>
                 <p class="text-[10px] uppercase font-bold tracking-[0.4em] text-gray-400 mt-4">Private Portal Access</p>
             </div>

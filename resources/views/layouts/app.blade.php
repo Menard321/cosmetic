@@ -141,7 +141,7 @@
         <div class="flex items-center gap-4">
             <div class="flex items-center gap-2 p-2 bg-primary-container/10 rounded-full border border-primary-container/20">
                 <span class="material-symbols-outlined text-primary text-sm">stars</span>
-                <span class="text-label-sm text-primary font-bold pr-2">250 Points</span>
+                <span class="text-label-sm text-primary font-bold pr-2">{{ number_format(auth()->user()->loyalty_points) }} Points</span>
             </div>
             <div class="flex items-center gap-3 ml-2 pl-4 border-l border-outline-variant">
                 <span class="material-symbols-outlined text-secondary text-3xl">account_circle</span>
@@ -153,5 +153,6 @@
     <main class="ml-64 pt-24 pb-stack-lg px-margin-desktop max-w-container-max mx-auto">
         {{ $slot }}
     </main>
+    @include('components.beauty-ai-chat')
 </body>
 </html>

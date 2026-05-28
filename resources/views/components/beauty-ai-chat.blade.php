@@ -74,7 +74,28 @@
                     <span class="material-symbols-outlined text-pink-600 text-[18px]">face_retouching_natural</span>
                 </div>
                 <div class="bg-white p-3 rounded-2xl rounded-bl-sm shadow-sm border border-pink-50 text-on-surface text-[13px] leading-relaxed relative">
-                    Hello beautiful! 👋 I'm your Beauty AI assistant. How can I help you with your skincare routine or cosmetic needs today?
+                    Hey! 👋 What beauty help are you looking for today? Skincare, makeup, fragrance — I've got you! 
+                    <br><br>
+                    I can also help you track your orders or check your loyalty points.
+                </div>
+            </div>
+
+            <!-- Suggested Questions Section -->
+            <div id="beauty-ai-suggestions" class="space-y-2 mt-4 px-2">
+                <p class="text-[10px] uppercase font-bold text-pink-400 tracking-widest ml-1 mb-2">Frequently Asked</p>
+                <div class="flex flex-col gap-2">
+                    <button onclick="window.sendSuggestion('How should I use our products?')" class="suggest-btn text-left bg-white p-3 rounded-xl border border-pink-50 text-[12px] text-on-surface hover:border-pink-300 hover:bg-pink-50 transition-all shadow-sm">
+                        How should I use this product
+                    </button>
+                    <button onclick="window.sendSuggestion('What are my loyalty rewards?')" class="suggest-btn text-left bg-white p-3 rounded-xl border border-pink-50 text-[12px] text-on-surface hover:border-pink-300 hover:bg-pink-50 transition-all shadow-sm">
+                        What are the benefits of my loyalty points
+                    </button>
+                    <button onclick="window.sendSuggestion('Recommend a long-wearing foundation')" class="suggest-btn text-left bg-white p-3 rounded-xl border border-pink-50 text-[12px] text-on-surface hover:border-pink-300 hover:bg-pink-50 transition-all shadow-sm">
+                        Is this product long-wearing
+                    </button>
+                    <button onclick="window.sendSuggestion('What products are best for dry skin?')" class="suggest-btn text-left bg-white p-3 rounded-xl border border-pink-50 text-[12px] text-on-surface hover:border-pink-300 hover:bg-pink-50 transition-all shadow-sm">
+                        What skin type is this product good for
+                    </button>
                 </div>
             </div>
             
@@ -93,11 +114,13 @@
         </div>
 
         <!-- Input Area -->
-        <form id="beauty-ai-form" class="p-3 bg-white border-t border-pink-50 flex items-center gap-2">
-            <input type="text" id="beauty-ai-input" autocomplete="off" placeholder="Ask about skincare..." class="flex-1 bg-surface py-2.5 px-4 rounded-full text-sm border-none focus:ring-1 focus:ring-pink-300 outline-none text-on-surface placeholder:text-on-surface-variant/50">
-            <button type="submit" class="w-10 h-10 rounded-full bg-on-background text-white flex items-center justify-center hover:bg-pink-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                <span class="material-symbols-outlined text-[18px]">send</span>
-            </button>
+        <form id="beauty-ai-form" class="p-3 bg-white border-t border-pink-50 flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+                <input type="text" id="beauty-ai-input" autocomplete="off" placeholder="Message..." class="flex-1 bg-surface py-2.5 px-4 rounded-full text-sm border-none focus:ring-1 focus:ring-pink-300 outline-none text-on-surface placeholder:text-on-surface-variant/50">
+                <button type="submit" class="w-10 h-10 rounded-full bg-on-background text-white flex items-center justify-center hover:bg-pink-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span class="material-symbols-outlined text-[18px]">arrow_upward</span>
+                </button>
+            </div>
         </form>
     </div>
 </div>
@@ -185,11 +208,24 @@ document.addEventListener('DOMContentLoaded', function() {
         messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
+    // Global function for suggestions
+    window.sendSuggestion = function(text) {
+        input.value = text;
+        form.dispatchEvent(new Event('submit'));
+        // Hide suggestions after first interaction
+        const suggestions = document.getElementById('beauty-ai-suggestions');
+        if (suggestions) suggestions.style.display = 'none';
+    };
+
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const message = input.value.trim();
         if (!message) return;
+
+        // Hide suggestions if they exist
+        const suggestions = document.getElementById('beauty-ai-suggestions');
+        if (suggestions) suggestions.style.display = 'none';
 
         // Display user message
         addMessage(message, true);

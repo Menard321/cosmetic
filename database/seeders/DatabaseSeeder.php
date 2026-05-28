@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $admin = User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'admin@example.com',
+            'name' => 'Joseph Menard',
+            'email' => 'menardjoseph23@gmail.com',
             'password' => bcrypt('password')
         ]);
         $admin->assignRole('super-admin');
@@ -33,40 +33,40 @@ class DatabaseSeeder extends Seeder
 
         $p1 = \App\Models\Product::create([
             'category_id' => $skincare->id,
-            'name' => 'Revitalift Crystal Essence',
-            'brand' => "L'ORÉAL PARIS",
+            'name' => 'SEASHELLS',
+            'brand' => "Niffer Scents",
             'price' => 145000,
-            'image_url' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuDijkKx7ZhPOC-EbzgMOy5JSRmDGPLpIuDLc7vicy_kEjCAcP6HW4DTG-A8UbBKe_AIqI0_I70LBl7G2pd3gvFavQ_ninvSi1A8jwmipXkW9FHcjWeUszvEcmGrqKwRp9LAWDtD88wd4KLoVvW-_fkCP0jme7I8eq_1CJMM2NsM3tYuflt60t9rkUOP7LFl20tWp1wB7fLmq8HL8nYcVm8FjvIPPyQ4uLTH_YRf9zXKS0BlbhTaUyg_fKw_RO5mhqOL0dPTbPONlFI',
+            'image_url' => '/niffer/9.jpeg',
             'is_trending' => true,
             'stock_quantity' => 45
         ]);
 
         $p2 = \App\Models\Product::create([
             'category_id' => $fragrance->id,
-            'name' => 'Eau De Parfum',
-            'brand' => 'FENTY BEAUTY',
+            'name' => 'UNDEFINED',
+            'brand' => 'Niffer Scents',
             'price' => 320000,
-            'image_url' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuC6e2JPtmotgURc2koYV2YlbaYENiim2WyRnLUt_NUyZTW6fQqtc0SGUyZSsemz0M88oXKLK61DbXvlPlf3kxsNY0RMYRi0bwiuuoOvydK1B-pOk1gubpJQHfhEAUi5Es7894o2hqTQkCtEUnpzQWqNY6zNDxte9eEChve6heat015dHQ2s3d_uoXqWvTU-iEQkWnkjgGScdxo1JtMd__SN1MgW6e_oZoNCPWmJzJ9dOWt0W2MDqNG0Nvb56pDPXPLNo17DnpJNdPE',
+            'image_url' => '/niffer/10.jpeg',
             'is_trending' => true,
             'stock_quantity' => 12
         ]);
 
         $p3 = \App\Models\Product::create([
             'category_id' => $skincare->id,
-            'name' => 'Swahili Coast Shea Butter',
-            'brand' => 'LOCAL BRAND',
+            'name' => 'ELEGANT',
+            'brand' => 'Niffer Scents',
             'price' => 45000,
-            'image_url' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuAR8AlSk7mabGQqqeWbvm0zWiNaOv0hSsbEXKhYXFBeDrIdscNgptUdJ7ZI2SJ2g71m7Jo08b2LfCTJh73H5JW2A61fggz3D2-Hkl80UJ2B9Br8ydKmfz68XAuUY-xowqLuds-iqxPRcuG5SEgBnpJHrfH4xB9o4qHAd6RREKDvW4cw9HrRQNhlf6p3awPicJTShPyeuzxwq_amDeu16QBjUQks41iEy32WNWW5ywNuVxaiz9hz4CU2DJLwx4T7iGDjKYmgGtL9Gi8',
+            'image_url' => '/niffer/11.jpeg',
             'is_trending' => true,
             'stock_quantity' => 4
         ]);
 
         $p4 = \App\Models\Product::create([
             'category_id' => $makeup->id,
-            'name' => 'Rouge Velvet Edition',
-            'brand' => 'DIOR',
+            'name' => 'SWEET',
+            'brand' => 'Niffer Scents',
             'price' => 115000,
-            'image_url' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuB-0wtSPaGRhFM2aGVe2y7fDK7vGo_UA4R_LiaW7BPbvLprdIR2OMSFIhjS1gt0CqgZuhhwYwR-GifyhDbPeq7HRrM-UtjHQ_pME43Mi46hMERcs8Ir3A7g2AwRNiXb0y0iBckgVKJqYc0yC_m9GZkA17o7f1xpXdsGMWk70zrEMyWK09cns5smGFceszLaD_LIoFvOkSDAjTT-PycTxoUwAD9B758MPcxJwq3WvrD5JG8JlD4mkTNKnQ-A6sVj8i4HoZcebL5Nmnc',
+            'image_url' => '/niffer/12.jpeg',
             'is_trending' => true,
             'stock_quantity' => 8
         ]);

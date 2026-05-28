@@ -4,7 +4,7 @@
 <!-- Hero Section -->
 <section class="relative h-[819px] w-full flex items-center overflow-hidden">
 <div class="absolute inset-0 z-0">
-<img class="w-full h-full object-cover" data-alt="A luxurious, close-up editorial shot of a high-end perfume bottle and a golden silk serum dropper on a reflective marble surface. The lighting is soft and cinematic, with warm champagne golden hues reflecting off the glass. The background is a blurred, ethereal studio setting with soft rose-tinted shadows, creating a sophisticated and aspirational aesthetic of premium Tanzanian beauty. The overall mood is one of quiet luxury and radiant elegance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5FkxLui4WXDvg12Ei0YMsW1OGLz24pA6-svWgJEC93HGVBn9mOom-xqoRCdI92q6lueztDgjHO8z0fbchIc2EJ_NJoAQLSkxjWGXorB6lTUnNUugJ46aQOhwfB4KT33ZeXvyrOFB7waGgvtQ_vI7ynPIvkD97T2AICrt_XEbvABnmIT3RJlM-_brpuFdcI3_GfRiFBlWCDTbTewpPstaNePl5uQ6-zIDo4KLMSeHsJnWfoRoMpjV8FqhGeGyxdd6ML0VUN9dvioA"/>
+<img class="w-full h-full object-cover" data-alt="Angels Beauty Luxury Banner" src="{{ asset('niffer/8.jpeg') }}"/>
 <div class="absolute inset-0 bg-gradient-to-r from-background/60 via-background/20 to-transparent"></div>
 </div>
 <div class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
@@ -116,7 +116,7 @@
 <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter h-auto md:h-[700px]">
 <!-- Skincare (Large) -->
 <div class="md:col-span-8 relative overflow-hidden group">
-<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="Atmospheric shot of a woman with radiant skin in a soft, sun-drenched bathroom setting. She is applying a clear serum to her face. The mood is tranquil and spa-like, with warm natural light filtering through sheer curtains. The aesthetic is extremely clean and minimalist, dominated by whites, light woods, and soft skin tones. Professional photography with high-end editorial quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9N9HQ9t5HVPfF4xP4wKWubZN4y5M9w_cMwSgmQ1g9LeVSBboMtEsugvhekq_NZeaYcFENbVqRUeWCQbVsiIwlRsqSTiCqHRBmEcI3yDtNNiqr-hXb5eX4L2ZA0IL0PJYeVdx3X5bSp4DZjEJWuExB9aSWPQaoqp9X0unLrOo8AlBq39k_US9espduUWRF_tZazC7yUtuahvQmZ2bhma7YMpR98tnp5Knbqb55lGagWlj58Yu8CL3G1Dy-swkF3V2h5k6Ao1O33g0"/>
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="Skincare Collection" src="{{ asset('niffer/7.jpeg') }}"/>
 <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
 <div class="absolute bottom-10 left-10">
 <h3 class="font-display-lg text-display-lg text-white mb-2">Skincare</h3>
@@ -128,7 +128,7 @@
 <div class="md:col-span-4 flex flex-col gap-gutter">
 <!-- Fragrance -->
 <div class="relative h-1/2 overflow-hidden group">
-<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="Artistic close-up of a premium perfume bottle on a mirrored surface with delicate white flowers and light smoke. The color palette is sophisticated with silver and translucent glass tones. The image captures a sense of mystery and luxury, with sharp focus on the bottle's label and soft bokeh in the background. High-key lighting creates a bright and airy mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgIhLemwuaG_IXvS71qeJba15_Swzvn4J8WCKUOsTDJVGB-_HlAxwxq2V6p7sV11eL_X_16g29qYdB9XjAEDMDPX_4V9q56I3oc7rSws-Qss5nSDTCR2FU0X6UGFfbdkclaqbDNz6gAdKhzUhUDGfL9KA_PXllDPNgFTrFjsCttpKlIGCYglPUNsF7WzbSoqyqenPtJOBbbO4z39MRt195HQ8BxyOSvVag_e3oVLSYVNtSHr_LyMBguriBQ6DTX3U3q59BN7Stvfk"/>
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="Fragrance Collection" src="{{ asset('niffer/6.jpeg') }}"/>
 <div class="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-500"></div>
 <div class="absolute bottom-6 left-6">
 <h3 class="font-headline-sm text-headline-sm text-white">Fragrance</h3>
@@ -170,8 +170,8 @@
     <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
             <div class="relative">
-                <div class="border border-white/20 p-2 inline-block mb-stack-md">
-                    <img class="w-full h-[500px] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9N9HQ9t5HVPfF4xP4wKWubZN4y5M9w_cMwSgmQ1g9LeVSBboMtEsugvhekq_NZeaYcFENbVqRUeWCQbVsiIwlRsqSTiCqHRBmEcI3yDtNNiqr-hXb5eX4L2ZA0IL0PJYeVdx3X5bSp4DZjEJWuExB9aSWPQaoqp9X0unLrOo8AlBq39k_US9espduUWRF_tZazC7yUtuahvQmZ2bhma7YMpR98tnp5Knbqb55lGagWlj58Yu8CL3G1Dy-swkF3V2h5k6Ao1O33g0" alt="Beauty Expert">
+                <div class="border border-white/20 p-2 inline-block mb-stack-md overflow-hidden group cursor-pointer">
+                    <img class="w-full h-[500px] object-cover transition-transform duration-1000 group-hover:scale-110" src="{{ asset('niffer/13.jpeg') }}" alt="Beauty Expert">
                 </div>
                 <div class="absolute -bottom-6 -right-6 bg-primary p-8 hidden md:block">
                     <p class="font-headline-sm text-headline-sm italic">"Your skin is an investment, not an expense."</p>

@@ -19,6 +19,15 @@ class ProductController extends Controller
             });
         }
 
+        if ($request->has('q')) {
+            $search = $request->q;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('brand', 'LIKE', "%{$search}%")
+                  ->orWhere('description', 'LIKE', "%{$search}%");
+            });
+        }
+
         $products = $query->paginate(12);
 
         return view('products.index', compact('products', 'categories'));

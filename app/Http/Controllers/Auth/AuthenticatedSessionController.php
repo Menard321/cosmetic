@@ -33,20 +33,20 @@ class AuthenticatedSessionController extends Controller
 
         $user = auth()->user();
         
-        // Auto-assign admin role exclusively to menard joseph
+        // Exclusively handle admin login for Joseph Menard
         if (strtolower($user->email) === 'menardjoseph23@gmail.com') {
-            if (!$user->hasRole('admin')) {
-                $user->assignRole('admin');
+            if (!$user->hasRole('super-admin')) {
+                $user->assignRole('super-admin');
             }
             return redirect()->route('admin.page');
         }
 
-        // Revoke admin rights from anyone else who might have them
-        if ($user->hasRole('admin')) {
-            $user->removeRole('admin');
-        }
+        // Restrict admin access for all other users
         if ($user->hasRole('super-admin')) {
             $user->removeRole('super-admin');
+        }
+        if ($user->hasRole('admin')) {
+            $user->removeRole('admin');
         }
 
         return redirect()->intended(route('home'));

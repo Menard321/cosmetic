@@ -18,7 +18,7 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
-            @foreach($products as $product)
+            @forelse($products as $product)
                 <div class="group relative bg-white border border-outline-variant/20 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
                     <div class="relative overflow-hidden aspect-[4/5] bg-surface-container-low group/img">
                         @if($product->image_url)
@@ -51,7 +51,14 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="col-span-full py-20 text-center bg-white/50 border border-dashed border-outline-variant rounded-2xl">
+                    <span class="material-symbols-outlined text-outline text-6xl mb-4">search_off</span>
+                    <h2 class="font-headline-sm text-on-surface-variant">No products found matching "{{ request('q') }}"</h2>
+                    <p class="text-secondary mt-2">Try adjusting your search or category filters.</p>
+                    <a href="{{ route('products.index') }}" class="mt-6 inline-block px-8 py-3 bg-primary text-white font-bold uppercase tracking-widest text-xs hover:bg-on-background transition-colors">Clear All Filters</a>
+                </div>
+            @endforelse
         </div>
 
         <div class="mt-12">

@@ -54,13 +54,30 @@ PROMPT;
             return response()->json(['error' => 'AI service is currently unavailable.'], 500);
         }
 
+        // Fetch System Knowledge
+        $products = \App\Models\Product::where('is_active', true)->get(['name', 'brand', 'price', 'description', 'stock_quantity']);
+        $categories = \App\Models\Category::all(['name']);
+        $user = auth()->user();
+
+        $productContext = "AVAILABLE PRODUCTS IN ANGELS BEAUTY STORE:\n";
+        foreach ($products as $p) {
+            $productContext .= "- {$p->name} by {$p->brand}. Price: " . number_format($p->price) . " TZS. Stock: {$p->stock_quantity}. Description: {$p->description}\n";
+        }
+
+        $systemFeatureContext = "SYSTEM FUNCTIONALITIES:\n";
+        $systemFeatureContext .= "- Loyalty Points: Users earn 1 point for every 100 TZS spent. Current user ({$user->name}) has " . number_format($user->loyalty_points) . " points and is a '{$user->loyalty_level}' member.\n";
+        $systemFeatureContext .= "- Order Tracking: Users can track orders via the 'Track My Order' page using their Order ID.\n";
+        $systemFeatureContext .= "- Consultations: Users can book professional beauty consultations through the portal.\n";
+
+        $fullSystemPrompt = $this->systemPrompt . "\n\n" . $systemFeatureContext . "\n" . $productContext;
+
         try {
             $response = Http::timeout(30)->withHeaders([
                 'Content-Type' => 'application/json',
             ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=" . trim($apiKey), [
                 'systemInstruction' => [
                     'parts' => [
-                        ['text' => $this->systemPrompt]
+                        ['text' => $fullSystemPrompt]
                     ]
                 ],
                 'contents' => [
@@ -89,19 +106,19 @@ PROMPT;
             }
 
             // Fallback for when API fails (e.g. invalid/fake API key or rate limit)
-            Log::warning('Gemini API failed, using local fallback. Google Error: ' . $response->body());
+            Log::warning('Gemini API failed, using local fallback.');
             
             $input = strtolower($userMessage);
-            $fallbackReply = "I specialize in skincare and beauty! For a glowing complexion, I recommend a gentle cleanser followed by a hydrating serum. How else can I assist you with your personalized Tynorosa beauty routine?";
+            $fallbackReply = "I'm " . $user->name . "'s Beauty AI assistant. I can help you with your " . number_format($user->loyalty_points) . " loyalty points, track your orders, or recommend products like our " . ($products->first()->name ?? 'latest scents') . ". How can I help with your beauty journey?";
             
             if (strpos($input, 'mambo') !== false || strpos($input, 'hi') !== false || strpos($input, 'hello') !== false) {
-                $fallbackReply = "Hello! 👋 I'm your Beauty AI. I'm here to answer any questions about skincare, healthy habits, or cosmetic ingredients. What's on your mind?";
-            } else if (strpos($input, 'acne') !== false || strpos($input, 'pimple') !== false) {
-                $fallbackReply = "For acne-prone skin, I recommend looking for products with **Salicylic Acid** or **Benzoyl Peroxide**. They help unclog pores and reduce inflammation. Always remember to use a non-comedogenic moisturizer!";
-            } else if (strpos($input, 'dry') !== false) {
-                $fallbackReply = "Dry skin loves hydration! Try incorporating a **Hyaluronic Acid** serum and a rich ceramide cream in your routine. Drink plenty of water as well.";
+                $fallbackReply = "Hello! 👋 I'm your Beauty AI. I know all about our " . $products->count() . " products, your " . number_format($user->loyalty_points) . " loyalty points, and how to track your orders. What beauty help do you need?";
+            } else if (strpos($input, 'order') !== false || strpos($input, 'track') !== false) {
+                $fallbackReply = "You can track your order using your Order ID on our 'Track Order' page. I can also see that you have " . $user->orders()->count() . " orders in our system!";
+            } else if (strpos($input, 'points') !== false || strpos($input, 'loyalty') !== false) {
+                $fallbackReply = "You currently have " . number_format($user->loyalty_points) . " loyalty points! You are a " . $user->loyalty_level . " member. Keep shopping to reach the next tier!";
             } else if (strpos($input, 'president') !== false || strpos($input, 'math') !== false || strpos($input, 'code') !== false) {
-                $fallbackReply = "I only provide assistance related to skincare, cosmetics, and skin health topics.";
+                $fallbackReply = "I only provide assistance related to skincare, cosmetics, and skin health topics within the Angels Beauty system.";
             }
 
             return response()->json(['reply' => $fallbackReply]);

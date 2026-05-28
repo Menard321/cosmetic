@@ -1,15 +1,38 @@
 <x-app-layout>
+    @php
+        $user = auth()->user();
+        $points = $user->loyalty_points;
+        $nextLevelPoints = 1000;
+        $nextLevelName = 'Silver';
+        
+        if ($points >= 10000) {
+            $nextLevelPoints = 10000;
+            $nextLevelName = 'Elite';
+        } elseif ($points >= 5000) {
+            $nextLevelPoints = 10000;
+            $nextLevelName = 'Platinum';
+        } elseif ($points >= 1000) {
+            $nextLevelPoints = 5000;
+            $nextLevelName = 'Gold';
+        }
+        
+        $progress = ($nextLevelPoints > 0) ? min(100, ($points / $nextLevelPoints) * 100) : 0;
+    @endphp
     <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-stack-lg">
         <!-- Loyalty Card -->
         <div class="bg-primary-container/20 border border-primary-container p-6 rounded-2xl relative overflow-hidden">
             <div class="z-10 relative">
                 <p class="font-label-sm text-primary uppercase tracking-widest">Loyalty Status</p>
-                <h3 class="font-headline-sm text-headline-sm mt-2 text-on-surface">Gold Member</h3>
-                <p class="text-label-md mt-4 text-on-surface-variant font-bold">250 Points</p>
+                <h3 class="font-headline-sm text-headline-sm mt-2 text-on-surface">{{ $user->loyalty_level }} Member</h3>
+                <p class="text-label-md mt-4 text-on-surface-variant font-bold">{{ number_format($points) }} Points</p>
                 <div class="w-full bg-surface-container-high h-2 rounded-full mt-2">
-                    <div class="bg-primary h-full rounded-full" style="width: 65%"></div>
+                    <div class="bg-primary h-full rounded-full" style="width: {{ $progress }}%"></div>
                 </div>
-                <p class="text-[10px] mt-1 text-on-surface-variant">50 more points to Platinum</p>
+                @if($points < 10000)
+                    <p class="text-[10px] mt-1 text-on-surface-variant">{{ number_format($nextLevelPoints - $points) }} more points to {{ $nextLevelName }}</p>
+                @else
+                    <p class="text-[10px] mt-1 text-on-surface-variant">You've reached the highest tier!</p>
+                @endif
             </div>
             <span class="material-symbols-outlined absolute -right-4 -bottom-4 text-primary/10 text-[120px] rotate-12">auto_awesome</span>
         </div>
@@ -18,7 +41,7 @@
         <div class="bg-surface-container p-6 rounded-2xl border border-outline-variant/30 flex flex-col justify-between">
             <div>
                 <p class="font-label-sm text-on-surface-variant uppercase tracking-widest">Active Orders</p>
-                <h3 class="font-headline-sm text-headline-sm mt-2 text-on-surface">02</h3>
+                <h3 class="font-headline-sm text-headline-sm mt-2 text-on-surface">{{ str_pad($user->orders()->whereIn('status', ['pending', 'processing', 'shipped'])->count(), 2, '0', STR_PAD_LEFT) }}</h3>
             </div>
             <a href="{{ route('customer.orders') }}" class="text-primary font-bold text-label-md flex items-center gap-2 mt-4 hover:gap-3 transition-all">
                 Track Deliveries <span class="material-symbols-outlined text-sm">arrow_forward</span>
@@ -28,8 +51,8 @@
         <!-- Savings -->
         <div class="bg-surface-container p-6 rounded-2xl border border-outline-variant/30 flex flex-col justify-between">
             <div>
-                <p class="font-label-sm text-on-surface-variant uppercase tracking-widest">Total Savings</p>
-                <h3 class="font-headline-sm text-headline-sm mt-2 text-on-surface">15,000 TZS</h3>
+                <p class="font-label-sm text-on-surface-variant uppercase tracking-widest">Total Spent</p>
+                <h3 class="font-headline-sm text-headline-sm mt-2 text-on-surface">{{ number_format($user->total_spent) }} TZS</h3>
             </div>
             <p class="text-on-surface-variant text-label-sm mt-4 italic">You've saved 5% this month!</p>
         </div>
