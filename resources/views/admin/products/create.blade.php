@@ -39,15 +39,31 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 gap-6">
             <div>
-                <label class="label-premium block mb-2">Stock Quantity</label>
-                <input type="number" name="stock_quantity" class="form-input-premium w-full" value="50" required>
+                <label class="label-premium block mb-4 uppercase tracking-[0.2em] text-[10px] text-primary">Inventory per Branch</label>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    @foreach($branches as $branch)
+                        <div class="p-4 bg-surface-variant/30 border border-outline-variant/30 rounded-xl">
+                            <label class="font-bold text-xs mb-2 block">{{ $branch->name }}</label>
+                            <input type="number" name="branches[{{ $branch->id }}][stock]" class="form-input-premium w-full text-sm" value="0" min="0" required>
+                            <p class="text-[9px] text-on-surface-variant mt-1">Starting Stock</p>
+                        </div>
+                    @endforeach
+                </div>
             </div>
             <div>
                 <label class="label-premium block mb-2">Product Image (Upload File)</label>
-                <input type="file" name="image" class="form-input-premium w-full p-2 text-xs" accept="image/*">
-                <p class="text-[10px] text-on-surface-variant mt-1 italic">Select a clear product shot from your computer (Max 2MB).</p>
+                <div class="flex items-center gap-4 p-4 border-2 border-dashed border-outline-variant/50 rounded-2xl hover:border-primary transition-colors cursor-pointer group relative">
+                    <input type="file" name="image" class="absolute inset-0 opacity-0 cursor-pointer z-10" accept="image/*">
+                    <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center group-hover:bg-primary/20">
+                        <span class="material-symbols-outlined text-primary">upload_file</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold">Select a clear product shot</p>
+                        <p class="text-[10px] text-on-surface-variant italic">Max 2MB (JPG, PNG, WEBP)</p>
+                    </div>
+                </div>
             </div>
         </div>
 

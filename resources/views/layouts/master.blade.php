@@ -7,8 +7,9 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -123,6 +124,31 @@
 </div>
 </div>
 <div class="flex items-center gap-4">
+            <!-- Branch Switcher -->
+            <div class="relative group mr-4">
+                <button class="flex items-center gap-2 px-4 py-2 bg-primary-container/10 border border-primary-container/20 rounded-full text-label-sm text-primary font-bold hover:bg-primary-container/20 transition-all">
+                    <span class="material-symbols-outlined text-[18px]">location_on</span>
+                    <span>{{ session('active_branch_name', 'Select Branch') }}</span>
+                    <span class="material-symbols-outlined text-[16px] group-hover:rotate-180 transition-transform">expand_more</span>
+                </button>
+                <div class="absolute top-full left-0 mt-2 w-56 bg-white border border-outline-variant shadow-2xl rounded-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 overflow-hidden">
+                    <div class="p-4 border-b border-outline-variant bg-surface-container-low">
+                        <p class="text-[10px] uppercase font-bold text-on-surface-variant tracking-widest">Select Location</p>
+                    </div>
+                    @foreach($all_branches as $branch)
+                        <a href="{{ route('branches.switch', $branch->slug) }}" class="flex items-center justify-between px-4 py-3 hover:bg-primary-container/10 transition-all {{ session('active_branch_id') == $branch->id ? 'bg-primary-container/5 text-primary' : 'text-on-surface' }}">
+                            <div class="flex flex-col">
+                                <span class="font-bold text-sm">{{ $branch->name }}</span>
+                                <span class="text-[10px] text-on-surface-variant">{{ $branch->location }}</span>
+                            </div>
+                            @if(session('active_branch_id') == $branch->id)
+                                <span class="material-symbols-outlined text-[18px] text-primary">check_circle</span>
+                            @endif
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+
             <form action="{{ route('products.index') }}" method="GET" class="hidden lg:flex items-center bg-surface-container-high rounded-full px-4 py-2 w-64">
                 <span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
                 <input name="q" value="{{ request('q') }}" class="bg-transparent border-none focus:ring-0 text-label-md w-full" placeholder="Search brands..." type="text"/>
@@ -166,15 +192,16 @@
 <h3 class="font-headline-sm text-headline-sm text-on-surface dark:text-inverse-on-surface mb-6">ANGELS BEAUTY</h3>
 <p class="text-secondary font-body-md mb-6">Tanzania's premier destination for high-end beauty and skincare excellence.</p>
 <div class="flex gap-4">
-<a class="text-secondary hover:text-primary transition-all" href="#"><span class="material-symbols-outlined">social_leaderboard</span></a>
-<a class="text-secondary hover:text-primary transition-all" href="#"><span class="material-symbols-outlined">camera</span></a>
+<a class="text-secondary hover:text-pink-600 transition-all text-xl" href="https://www.instagram.com/niffer_cosmetics_/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+<a class="text-secondary hover:text-[#1877F2] transition-all text-xl" href="https://www.facebook.com/niffercosmetic/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+<a class="text-secondary hover:text-black transition-all text-xl" href="https://x.com/niffercosmetic" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
 </div>
 </div>
 <div>
 <h4 class="font-label-md text-label-md text-primary uppercase mb-6">Explore</h4>
 <ul class="space-y-4">
 <li><a class="text-secondary hover:text-primary hover:underline transition-all font-body-md text-body-md" href="{{ route('pages.brand-story') }}">Brand Story</a></li>
-<li><a class="text-secondary hover:text-primary hover:underline transition-all font-body-md text-body-md" href="https://instagram.com" target="_blank">Instagram</a></li>
+<li><a class="text-secondary hover:text-primary hover:underline transition-all font-body-md text-body-md" href="https://www.instagram.com/niffer_cosmetics_/" target="_blank">Instagram</a></li>
 <li><a class="text-secondary hover:text-primary hover:underline transition-all font-body-md text-body-md" href="{{ route('pages.store-locator') }}">Store Locator</a></li>
 <li><a class="text-secondary hover:text-primary hover:underline transition-all font-body-md text-body-md" href="{{ route('pages.contact') }}">Contact Us</a></li>
 </ul>
@@ -193,7 +220,6 @@
 <li><a class="text-secondary hover:text-primary hover:underline transition-all font-body-md text-body-md" href="{{ route('pages.shipping-policy') }}">Shipping Policy</a></li>
 <li><a class="text-secondary hover:text-primary hover:underline transition-all font-body-md text-body-md" href="{{ route('pages.return-policy') }}">Return Policy</a></li>
 <li><a class="text-secondary hover:text-primary hover:underline transition-all font-body-md text-body-md" href="{{ route('pages.privacy-policy') }}">Privacy Policy</a></li>
-<li><a class="text-primary font-bold hover:underline transition-all font-body-md text-body-md mt-4 block" href="{{ route('admin.page') }}">Admin Portal</a></li>
 </ul>
 </div>
 </div>

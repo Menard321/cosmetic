@@ -18,6 +18,25 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function branches()
+    {
+        return $this->belongsToMany(Branch::class, 'branch_inventories')
+                    ->withPivot('stock_quantity', 'price_override', 'is_available')
+                    ->withTimestamps();
+    }
+
+    public function getStockForBranch($branchId)
+    {
+        $branchInfo = $this->branches()->where('branch_id', $branchId)->first();
+        return $branchInfo ? $branchInfo->pivot->stock_quantity : 0;
+    }
+
+    public function getPriceForBranch($branchId)
+    {
+        $branchInfo = $this->branches()->where('branch_id', $branchId)->first();
+        return ($branchInfo && $branchInfo->pivot->price_override) ? $branchInfo->pivot->price_override : $this->price;
+    }
+
     public function batches()
     {
         return $this->hasMany(InventoryBatch::class);

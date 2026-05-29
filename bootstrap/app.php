@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->appendToGroup('web', [
             \App\Http\Middleware\TwoFactorMiddleware::class,
+            \App\Http\Middleware\BranchMiddleware::class,
         ]);
         $middleware->redirectTo(
             guests: '/login',

@@ -19,7 +19,8 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.products.create', compact('categories'));
+        $branches = \App\Models\Branch::all();
+        return view('admin.products.create', compact('categories', 'branches'));
     }
 
     public function store(Request $request)
@@ -30,26 +31,42 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'stock_quantity' => 'required|integer|min:0',
+            'branches' => 'required|array',
+            'branches.*.stock' => 'required|integer|min:0',
             'description' => 'nullable|string'
         ]);
 
-        $data = $request->except('image');
+        $data = $request->except(['image', 'branches']);
+        
+        // Calculate global stock_quantity for fallback/legacy support
+        $data['stock_quantity'] = array_sum(array_column($request->branches, 'stock'));
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('products', 'public');
             $data['image_url'] = '/storage/' . $path;
         }
 
-        Product::create($data);
+        $product = Product::create($data);
 
-        return redirect()->route('admin.products.index')->with('success', 'Product created successfully!');
+        // Sync branches
+        foreach ($request->branches as $branchId => $branchData) {
+            if ($branchData['stock'] > 0) {
+                $product->branches()->attach($branchId, [
+                    'stock_quantity' => $branchData['stock'],
+                    'is_available' => true
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.products.index')->with('success', 'Product created and distributed to branches successfully!');
     }
 
     public function edit(Product $product)
     {
         $categories = Category::all();
-        return view('admin.products.edit', compact('product', 'categories'));
+        $branches = \App\Models\Branch::all();
+        $product->load('branches');
+        return view('admin.products.edit', compact('product', 'categories', 'branches'));
     }
 
     public function update(Request $request, Product $product)
@@ -60,14 +77,15 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'stock_quantity' => 'required|integer|min:0',
+            'branches' => 'required|array',
+            'branches.*.stock' => 'required|integer|min:0',
             'description' => 'nullable|string'
         ]);
 
-        $data = $request->except('image');
+        $data = $request->except(['image', 'branches']);
+        $data['stock_quantity'] = array_sum(array_column($request->branches, 'stock'));
 
         if ($request->hasFile('image')) {
-            // Delete old image if it exists and is a local file
             if ($product->image_url && str_contains($product->image_url, '/storage/')) {
                 $oldPath = str_replace('/storage/', '', $product->image_url);
                 Storage::disk('public')->delete($oldPath);
@@ -79,7 +97,17 @@ class ProductController extends Controller
 
         $product->update($data);
 
-        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully!');
+        // Sync branches
+        $syncData = [];
+        foreach ($request->branches as $branchId => $branchData) {
+            $syncData[$branchId] = [
+                'stock_quantity' => $branchData['stock'],
+                'is_available' => true
+            ];
+        }
+        $product->branches()->sync($syncData);
+
+        return redirect()->route('admin.products.index')->with('success', 'Product and branch stock updated successfully!');
     }
 
     public function destroy(Product $product)

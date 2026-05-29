@@ -9,6 +9,10 @@
 </div>
 <div class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
 <div class="max-w-2xl">
+    <div class="inline-flex items-center gap-2 px-4 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full mb-6 animate-in fade-in slide-in-from-left-4 duration-1000">
+        <span class="w-1.5 h-1.5 bg-primary-container rounded-full animate-pulse"></span>
+        <span class="text-[10px] uppercase font-bold text-white tracking-widest">Now Shopping: {{ session('active_branch_name', 'Main Mall') }}</span>
+    </div>
 <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-stack-md leading-tight">
                         The Art of <br/><span class="text-primary italic">Angels Beauty</span>
 </h1>
@@ -16,8 +20,8 @@
                         Discover a curated collection of global luxury and local radiance, tailored for the sophisticated Tanzanian spirit.
                     </p>
 <div class="flex flex-wrap gap-4">
-<a href="{{ route('products.index') }}" class="bg-on-background text-on-secondary px-8 py-4 rounded-none font-label-md uppercase tracking-widest hover:bg-primary transition-all duration-500 inline-block text-center">Shop Collection</a>
-<a href="{{ route('home') }}" class="border border-on-background text-on-background px-8 py-4 rounded-none font-label-md uppercase tracking-widest hover:bg-on-background hover:text-white transition-all duration-500 inline-block text-center">Our Story</a>
+<a href="{{ route('products.index') }}" class="bg-on-background text-on-secondary px-8 py-4 rounded-none font-label-md uppercase tracking-widest hover:bg-primary transition-all duration-500 inline-block text-center shadow-lg">Shop Branch Collection</a>
+<a href="{{ route('branches.index') }}" class="border border-on-background text-on-background px-8 py-4 rounded-none font-label-md uppercase tracking-widest hover:bg-on-background hover:text-white transition-all duration-500 inline-block text-center">Switch Location</a>
 </div>
 </div>
 </div>
@@ -75,6 +79,35 @@
 </div>
 @endforeach
 </div>
+
+<!-- Branch Destinations -->
+<section class="py-stack-lg bg-white relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent"></div>
+    <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-16">
+            <h2 class="font-headline-md text-headline-md text-on-surface">Our Luxury Destinations</h2>
+            <a href="{{ route('branches.index') }}" class="text-primary font-bold uppercase tracking-widest text-[10px] flex items-center gap-2 hover:translate-x-2 transition-transform">
+                View All Branches <span class="material-symbols-outlined">arrow_forward</span>
+            </a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            @foreach($all_branches->take(3) as $branch)
+                <div class="group cursor-pointer" onclick="window.location.href='{{ route('branches.show', $branch->slug) }}'">
+                    <div class="relative aspect-[3/4] rounded-[2rem] overflow-hidden mb-6 shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1541604193435-220b2f3bd963?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" alt="{{ $branch->name }}">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-8 left-8">
+                            <p class="text-primary-container font-bold uppercase tracking-widest text-[10px] mb-2">{{ $branch->location }}</p>
+                            <h3 class="text-3xl font-headline-sm text-white">{{ $branch->name }}</h3>
+                        </div>
+                        <div class="absolute inset-0 border-2 border-white/0 group-hover:border-white/20 rounded-[2rem] transition-all duration-500 m-4"></div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</section>
 
 <!-- Extra Professional Section: Testimonials -->
 <section id="testimonial-section" class="py-stack-lg bg-surface-container-highest/20 overflow-hidden">

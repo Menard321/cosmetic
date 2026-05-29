@@ -15,7 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(RolesAndPermissionsSeeder::class);
+        $this->call([
+            RolesAndPermissionsSeeder::class,
+            BranchSeeder::class,
+        ]);
         
         // User::factory(10)->create();
 
@@ -82,6 +85,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Seed Orders for Admin Analytics
+        $branches = \App\Models\Branch::all();
         for ($i = 0; $i < 5; $i++) {
             $order = \App\Models\Order::create([
                 'customer_name' => 'Customer ' . $i,
@@ -105,7 +109,25 @@ class DatabaseSeeder extends Seeder
                 'price' => $p2->price,
             ]);
 
-            $order->update(['total_amount' => $p1->price + ($p2->price * 2)]);
+            $order->update([
+                'total_amount' => $p1->price + ($p2->price * 2),
+                'branch_id' => $branches->first()->id
+            ]);
+        }
+
+        // Distribute stock across branches
+        $allProducts = \App\Models\Product::all();
+        $branches = \App\Models\Branch::all();
+
+        foreach ($allProducts as $product) {
+            foreach ($branches as $branch) {
+                \App\Models\BranchInventory::create([
+                    'branch_id' => $branch->id,
+                    'product_id' => $product->id,
+                    'stock_quantity' => rand(5, 50),
+                    'is_available' => true
+                ]);
+            }
         }
     }
 }

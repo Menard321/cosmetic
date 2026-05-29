@@ -10,25 +10,34 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $categories = Category::all();
-        $query = Product::with('category')->where('is_active', true)->where('stock_quantity', '>', 0);
+        $branchId = session('active_branch_id');
+        $query = Product::where('is_active', true);
+
+        // Branch Filtering: Only show products stocked in the active branch
+        if ($branchId) {
+            $query->whereHas('branches', function($q) use ($branchId) {
+                $q->where('branch_id', $branchId)->where('stock_quantity', '>', 0);
+            });
+        }
 
         if ($request->has('category')) {
-            $query->whereHas('category', function($q) use ($request) {
-                $q->where('slug', $request->category);
-            });
+            $category = Category::where('slug', $request->category)->first();
+            if ($category) {
+                $query->where('category_id', $category->id);
+            }
         }
 
         if ($request->has('q')) {
-            $search = $request->q;
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'LIKE', "%{$search}%")
-                  ->orWhere('brand', 'LIKE', "%{$search}%")
-                  ->orWhere('description', 'LIKE', "%{$search}%");
+            $searchTerm = $request->q;
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('name', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('brand', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('description', 'LIKE', "%{$searchTerm}%");
             });
         }
 
-        $products = $query->paginate(12);
+        $products = $query->with('category')->paginate(12);
+        $categories = Category::all();
 
         return view('products.index', compact('products', 'categories'));
     }

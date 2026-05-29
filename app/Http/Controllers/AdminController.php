@@ -8,14 +8,53 @@ use App\Models\Product;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $totalRevenue = Order::sum('total_amount');
-        $totalOrders = Order::count();
-        $activeVendors = 48; // Static for now as we don't have Vendor model
+        $selectedBranchId = $request->get('branch_id');
+        $branches = \App\Models\Branch::withCount('orders')->get();
+        
+        $query = Order::where('status', 'completed');
+        $orderQuery = Order::query();
+        
+        if ($selectedBranchId) {
+            $query->where('branch_id', $selectedBranchId);
+            $orderQuery->where('branch_id', $selectedBranchId);
+            $selectedBranch = $branches->find($selectedBranchId);
+        } else {
+            $selectedBranch = null;
+        }
 
-        $urgentAlerts = Product::where('stock_quantity', '<', 10)->get();
+        $totalRevenue = $query->sum('total_amount');
+        $totalOrders = $orderQuery->count();
+        $totalProducts = Product::count();
+        
+        // Branch specific revenue for the chart
+        $branchRevenue = [];
+        foreach ($branches as $branch) {
+            $branchRevenue[$branch->name] = Order::where('branch_id', $branch->id)
+                ->where('status', 'completed')
+                ->sum('total_amount');
+        }
 
-        return view('admin', compact('totalRevenue', 'totalOrders', 'activeVendors', 'urgentAlerts'));
+        $urgentAlerts = Product::whereHas('branches', function($query) use ($selectedBranchId) {
+            if ($selectedBranchId) {
+                $query->where('branch_id', $selectedBranchId);
+            }
+            $query->where('stock_quantity', '<', 10);
+        })->with(['branches' => function($q) use ($selectedBranchId) {
+            if ($selectedBranchId) {
+                $q->where('branch_id', $selectedBranchId);
+            }
+        }])->get();
+
+        return view('admin', compact(
+            'totalRevenue', 
+            'totalOrders', 
+            'totalProducts', 
+            'urgentAlerts', 
+            'branches',
+            'branchRevenue',
+            'selectedBranch'
+        ));
     }
 }

@@ -17,6 +17,11 @@ Route::get('/contact-us', [App\Http\Controllers\PageController::class, 'contactU
 Route::get('/track-order', [App\Http\Controllers\PageController::class, 'trackOrder'])->name('pages.track-order');
 Route::post('/track-order/search', [App\Http\Controllers\PageController::class, 'trackOrderSearch'])->name('pages.track-order.search');
 
+// Branch Support
+Route::get('/branches', [\App\Http\Controllers\BranchController::class, 'index'])->name('branches.index');
+Route::get('/branches/{branch:slug}', [\App\Http\Controllers\BranchController::class, 'switch'])->name('branches.switch');
+Route::get('/location/{branch:slug}', [\App\Http\Controllers\BranchController::class, 'show'])->name('branches.show');
+
 // Loyalty System
 Route::middleware(['auth'])->group(function () {
     Route::get('/loyalty', [App\Http\Controllers\LoyaltyController::class, 'dashboard'])->name('customer.loyalty');
