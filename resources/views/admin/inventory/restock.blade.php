@@ -18,14 +18,29 @@
                 <input type="number" name="quantity" class="form-input-premium w-full" placeholder="Units to add" required min="1">
             </div>
             <div>
-                <label class="label-premium block mb-2">Supplier</label>
-                <select name="supplier_id" class="form-input-premium w-full">
-                    <option value="">Select Supplier</option>
-                    @foreach($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
-                    @endforeach
-                </select>
+                <label class="label-premium block mb-2">Destination Branch</label>
+                @if(auth()->user()->hasRole('branch-manager'))
+                    <input type="hidden" name="branch_id" value="{{ auth()->user()->branch_id }}">
+                    <input type="text" class="form-input-premium w-full opacity-60" value="{{ auth()->user()->branch?->name }}" disabled>
+                @else
+                    <select name="branch_id" class="form-input-premium w-full" required>
+                        <option value="">Select Branch</option>
+                        @foreach($branches as $branch)
+                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                        @endforeach
+                    </select>
+                @endif
             </div>
+        </div>
+
+        <div>
+            <label class="label-premium block mb-2">Supplier</label>
+            <select name="supplier_id" class="form-input-premium w-full">
+                <option value="">Select Supplier</option>
+                @foreach($suppliers as $supplier)
+                    <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                @endforeach
+            </select>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

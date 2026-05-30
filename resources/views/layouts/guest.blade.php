@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Angels Beauty') }}</title>
+        <title>{{ config('app.name', 'Niffer Cosmetic') }}</title>
 
         <!-- Fonts: Playfair Display for headings, Inter for body -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -180,12 +180,18 @@
                 letter-spacing: 0.1em;
             }
         </style>
+        <!-- Material Symbols -->
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     </head>
     <body class="antialiased">
+        <a href="{{ route('home') }}" class="fixed top-8 right-8 z-50 flex items-center gap-2 px-6 py-3 bg-white border border-outline-variant/30 rounded-full shadow-xl hover:bg-primary hover:text-white transition-all group scale-90 hover:scale-100">
+            <span class="material-symbols-outlined text-sm">home</span>
+            <span class="text-[10px] font-black uppercase tracking-widest text-inherit">Home</span>
+        </a>
         <div class="auth-grid">
             <!-- Left Side: Cinematic Image -->
             <div class="auth-image-side">
-                <img src="/cosmetic_auth_split_bg_1779205834623.png" alt="Angels Beauty Luxury">
+                <img src="/cosmetic_auth_split_bg_1779205834623.png" alt="Niffer Cosmetic Luxury">
                 <div class="auth-image-overlay">
                     <h2 class="heading-font text-5xl mb-4">Timeless Radiance.</h2>
                     <p class="text-white/80 font-light tracking-wide max-w-sm">Join our exclusive community of beauty enthusiasts in Tanzania and discover a world of authentic luxury products.</p>

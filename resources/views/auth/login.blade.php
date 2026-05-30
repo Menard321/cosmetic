@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Angels Cosmetics</title>
+    <title>Niffer Cosmetic</title>
     <!-- Google Fonts for Elegant Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -268,7 +268,7 @@
             <div class="brand-content">
                 <div class="logo">
                     <i class="fa-solid fa-spa"></i>
-                    <h1>ANGELS</h1>
+                    <h1>Niffer</h1>
                     <span>BEAUTY</span>
                 </div>
                 <h2>SIGN IN TO YOUR BEAUTY PORTAL</h2>
@@ -328,12 +328,12 @@
 
                     <button type="submit" class="btn-submit">LOG IN</button>
                 </form>
-                <p class="switch-form-text">New to Angels? <a href="#" id="to-register">[Register Now]</a></p>
+                <p class="switch-form-text">New to Niffer? <a href="#" id="to-register">[Register Now]</a></p>
             </div>
 
             <!-- REGISTRATION FORM -->
             <div class="form-box @if(!$errors->has('name') && !$errors->has('password_confirmation')) hidden @endif" id="register-box">
-                <h3>REGISTRATION FORM:<br><span>JOIN OUR ANGELS BEAUTY COMMUNITY</span></h3>
+                <h3>REGISTRATION FORM:<br><span>JOIN OUR Niffer Cosmetic COMMUNITY</span></h3>
                 
                 @if ($errors->any() && ($errors->has('name') || $errors->has('password_confirmation') || $errors->has('email')))
                     <div style="color: #d9534f; background: #fdf7f7; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 0.85rem; border: 1px solid #ebccd1;">
@@ -362,6 +362,40 @@
                             <input type="email" name="email" id="reg-email" placeholder="janedoe@email.com" value="{{ old('email') }}" required>
                         </div>
                     </div>
+
+                    <div class="input-group">
+                        <label for="phone_display">Mobile Contact (for Bulk SMS)</label>
+                        <div style="display: flex; gap: 10px;">
+                            <div style="flex: 0 0 100px; position: relative;">
+                                <select id="country_code" name="country_code" style="width: 100%; padding: 12px 5px; border: 1px solid #e0d8d0; border-radius: 6px; background: white; font-size: 0.85rem; appearance: none; cursor: pointer;">
+                                    <option value="255" selected>🇹🇿 +255</option>
+                                    <option value="254">🇰🇪 +254</option>
+                                    <option value="256">🇺🇬 +256</option>
+                                    <option value="250">🇷🇼 +250</option>
+                                    <option value="257">🇧🇮 +257</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 0.7rem; color: #888; pointer-events: none;"></i>
+                            </div>
+                            <div class="input-wrapper" style="flex: 1;">
+                                <i class="fa-solid fa-mobile-screen-button"></i>
+                                <input type="tel" id="phone_display" placeholder="712345678" style="padding-left: 45px;" oninput="this.value = this.value.replace(/[^0-9]/g, ''); updateFullPhone()" required>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.65rem; color: #888; margin-top: 5px; font-style: italic;">Note: Enter number without leading zero (e.g. 7XXXXXXXX)</p>
+                        <input type="hidden" name="phone" id="phone_full">
+                    </div>
+
+                    <script>
+                        function updateFullPhone() {
+                            const code = document.getElementById('country_code').value;
+                            let number = document.getElementById('phone_display').value;
+                            if (number.startsWith('0')) {
+                                number = number.substring(1);
+                            }
+                            document.getElementById('phone_full').value = code + number;
+                        }
+                        document.getElementById('country_code').addEventListener('change', updateFullPhone);
+                    </script>
 
                     <div class="input-group">
                         <label for="reg-password">Password</label>
@@ -395,7 +429,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2023 Angels Cosmetics. All rights reserved.</p>
+        <p>&copy; 2023 Niffer Cosmetic. All rights reserved.</p>
     </footer>
 
     <!-- JavaScript Toggle Logic -->

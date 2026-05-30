@@ -14,18 +14,32 @@ class InventoryController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['batches', 'category'])->get();
+        $productsQuery = Product::with(['batches', 'category']);
+        $branchId = null;
+
+        if (auth()->user()->hasRole('branch-manager')) {
+            $branchId = auth()->user()->branch_id;
+            // Only show products mapped to this branch
+            $productsQuery->whereHas('branches', function($q) use ($branchId) {
+                $q->where('branch_id', $branchId);
+            });
+        }
+
+        $products = $productsQuery->get();
         
-        // Real-time calculation: out of stock products to auto-disable check
-        // In a real app, this would be a scheduled task or event-driven, 
-        // but for this demo, we'll showing the monitoring side.
-        
-        $lowStockProducts = Product::where('stock_quantity', '<', 10)->get();
+        $lowStockProducts = Product::where('stock_quantity', '<', 10);
+        if ($branchId) {
+            $lowStockProducts->whereHas('branches', function($q) use ($branchId) {
+                $q->where('branch_id', $branchId)->where('branch_inventories.stock_quantity', '<', 10);
+            });
+        }
+        $lowStockProducts = $lowStockProducts->get();
+
         $expiredBatches = InventoryBatch::with('product')
             ->where('expiry_date', '<', now())
             ->get();
 
-        return view('admin.inventory.index', compact('products', 'lowStockProducts', 'expiredBatches'));
+        return view('admin.inventory.index', compact('products', 'lowStockProducts', 'expiredBatches', 'branchId'));
     }
 
     public function suppliers()
@@ -44,13 +58,15 @@ class InventoryController extends Controller
     public function restockForm(Product $product)
     {
         $suppliers = Supplier::all();
-        return view('admin.inventory.restock', compact('product', 'suppliers'));
+        $branches = \App\Models\Branch::all();
+        return view('admin.inventory.restock', compact('product', 'suppliers', 'branches'));
     }
 
     public function restock(Request $request, Product $product)
     {
         $request->validate([
             'quantity' => 'required|integer|min:1',
+            'branch_id' => 'required|exists:branches,id',
             'supplier_id' => 'nullable|exists:suppliers,id',
             'batch_number' => 'nullable|string',
             'expiry_date' => 'nullable|date',
@@ -58,6 +74,9 @@ class InventoryController extends Controller
         ]);
 
         DB::transaction(function() use ($request, $product) {
+            $user = auth()->user();
+            $branchId = $request->branch_id;
+
             // 1. Create Batch
             InventoryBatch::create([
                 'product_id' => $product->id,
@@ -68,19 +87,31 @@ class InventoryController extends Controller
                 'current_quantity' => $request->quantity,
             ]);
 
-            // 2. Update Product Stock
+            // 2. Update Product Stock (Global)
             $product->increment('stock_quantity', $request->quantity);
             
-            // 3. Log History
+            // 3. Update Branch Stock (Pivot)
+            $pivot = $product->branches()->where('branch_id', $branchId)->first();
+            if ($pivot) {
+                $pivot->pivot->increment('stock_quantity', $request->quantity);
+            } else {
+                $product->branches()->attach($branchId, [
+                    'stock_quantity' => $request->quantity,
+                    'is_available' => true
+                ]);
+            }
+
+            // 4. Log History
             InventoryLog::create([
                 'product_id' => $product->id,
                 'type' => 'restock',
                 'quantity' => $request->quantity,
                 'reason' => $request->reason ?? 'Regular restock',
-                'user_id' => auth()->id()
+                'user_id' => $user->id,
+                'branch_id' => $branchId
             ]);
 
-            // 4. Auto-enable if it was disabled
+            // 5. Auto-enable if it was disabled
             if ($product->stock_quantity > 0) {
                 $product->update(['is_active' => true]);
             }

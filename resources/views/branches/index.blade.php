@@ -9,7 +9,7 @@
     <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto relative z-10">
         <div class="text-center mb-16">
             <h1 class="font-headline-sm text-5xl text-on-surface mb-4">Our Luxury Destinations</h1>
-            <p class="text-on-surface-variant max-w-2xl mx-auto text-lg italic font-serif">Experience Angels Beauty across Tanzania. Each location offers a curated selection of premium skincare and fragrances.</p>
+            <p class="text-on-surface-variant max-w-2xl mx-auto text-lg italic font-serif">Experience Niffer Cosmetic across Tanzania. Each location offers a curated selection of premium skincare and fragrances.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">

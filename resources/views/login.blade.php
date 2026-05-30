@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Angels Beauty - Private Access</title>
+    <title>Niffer Cosmetic - Private Access</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
@@ -105,7 +105,7 @@
             <!-- Brand Header -->
             <div class="text-center mb-10">
                 <a href="/" class="heading-font text-4xl font-bold tracking-tighter text-gray-900">
-                   <span class="text-primary italic">Angels Beauty</span>
+                   <span class="text-primary italic">Niffer Cosmetic</span>
                 </a>
                 <p class="text-[10px] uppercase font-bold tracking-[0.4em] text-gray-400 mt-4">Private Portal Access</p>
             </div>

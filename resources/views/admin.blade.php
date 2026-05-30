@@ -6,7 +6,7 @@
     <div>
         <h2 class="font-headline-md text-headline-md text-on-surface">Executive Overview</h2>
         <p class="font-body-md text-on-surface-variant">
-            {{ $selectedBranch ? 'Performance for ' . $selectedBranch->name : 'Global Monitoring for Angels Beauty branches.' }}
+            {{ $selectedBranch ? 'Performance for ' . $selectedBranch->name : 'Global Monitoring for Niffer Cosmetic branches.' }}
         </p>
     </div>
     <div class="flex gap-4">
@@ -55,13 +55,13 @@
             <span>Sinza • Kigamboni • Dodoma</span>
         </div>
     </div>
-    <!-- Products -->
+    <!-- Members -->
     <div class="glass-card p-6 rounded-xl shadow-sm border border-outline-variant/30">
-        <p class="text-[10px] uppercase font-bold text-on-surface-variant mb-4 tracking-widest leading-none">Catalog Size</p>
-        <h3 class="font-headline-sm text-3xl mb-2">{{ $totalProducts }}</h3>
-        <div class="flex items-center gap-2 text-outline font-bold text-xs">
-            <span class="material-symbols-outlined text-[14px]">inventory_2</span>
-            <span>Universal Product IDs</span>
+        <p class="text-[10px] uppercase font-bold text-on-surface-variant mb-4 tracking-widest leading-none">Global Members</p>
+        <h3 class="font-headline-sm text-3xl mb-2">{{ number_format($totalCustomers) }}</h3>
+        <div class="flex items-center gap-2 text-pink-600 font-bold text-xs uppercase tracking-tighter">
+            <span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+            <span>Premium Beauty Community</span>
         </div>
     </div>
 </div>
@@ -69,48 +69,58 @@
 <!-- Middle Section -->
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter mb-stack-lg">
     <div class="lg:col-span-2 glass-card p-8 rounded-xl border border-outline-variant/30">
-        <div class="flex justify-between items-center mb-8">
-            <h4 class="text-xs uppercase font-bold text-on-surface tracking-[0.2em]">Revenue Analysis per Branch</h4>
+        <div class="flex justify-between items-center mb-8 border-b border-outline-variant/20 pb-4">
+            <h4 class="text-xs uppercase font-bold text-on-surface tracking-[0.2em]">New Member Activity</h4>
+            <a href="{{ route('admin.customers.index') }}" class="text-[10px] font-black text-primary uppercase tracking-widest hover:underline">View CRM</a>
         </div>
-        <div class="h-64 flex items-end gap-12 px-8">
-            @foreach($branchRevenue as $name => $revenue)
-                <div class="flex-1 flex flex-col items-center group relative">
-                    <div class="w-full bg-primary/20 rounded-t-2xl transition-all hover:bg-primary group-hover:shadow-[0_0_30px_rgba(var(--primary-rgb),0.3)]" 
-                         style="height: {{ $totalRevenue > 0 ? ($revenue / $totalRevenue) * 100 : 0 }}%">
-                         <div class="absolute -top-12 left-1/2 -translate-x-1/2 bg-on-background text-white text-[10px] py-1 px-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                            {{ number_format($revenue) }} TZS
-                         </div>
+        <div class="space-y-4">
+            @forelse($recentCustomers as $customer)
+                <div class="flex justify-between items-center p-4 bg-surface-container-low/50 rounded-2xl hover:bg-white transition-all border border-transparent hover:border-outline-variant/20">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-primary-container text-primary flex items-center justify-center font-bold text-sm">
+                            {{ substr($customer->name, 0, 1) }}
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold">{{ $customer->name }}</p>
+                            <p class="text-[10px] text-on-surface-variant">{{ $customer->email }}</p>
+                        </div>
                     </div>
-                    <p class="mt-4 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">{{ explode(' ', $name)[2] ?? $name }}</p>
+                    <div class="text-right">
+                        <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">{{ $customer->created_at->diffForHumans() }}</p>
+                        <p class="text-[9px] text-primary/60 font-black uppercase tracking-widest">New Member</p>
+                    </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="text-center py-20">
+                    <span class="material-symbols-outlined text-4xl text-outline-variant mb-4">person_add</span>
+                    <p class="text-on-surface-variant italic">No new members registered today.</p>
+                </div>
+            @endforelse
         </div>
     </div>
 
     <div class="glass-card p-8 rounded-xl border border-outline-variant/30 flex flex-col">
-        <h4 class="text-xs uppercase font-bold text-on-surface tracking-[0.2em] mb-8">Global Stock Alerts</h4>
+        <h4 class="text-xs uppercase font-bold text-on-surface tracking-[0.2em] mb-8">Quick Revenue Overview</h4>
         <div class="space-y-6 flex-grow overflow-y-auto">
-            @forelse($urgentAlerts as $alert)
-                <div class="flex gap-4 p-4 bg-error-container/5 border border-error/10 rounded-2xl">
-                    <div class="w-12 h-12 rounded-xl bg-surface-variant overflow-hidden flex-shrink-0">
-                        <img class="w-full h-full object-cover" src="{{ $alert->image_url }}"/>
-                    </div>
-                    <div>
-                        <p class="text-sm font-bold">{{ $alert->name }}</p>
-                        <p class="text-[10px] text-error uppercase font-bold tracking-tighter">Critical Low Stock</p>
-                        <div class="flex gap-1 mt-2">
-                            @foreach($alert->branches->where('pivot.stock_quantity', '<', 10) as $branch)
-                                <span class="bg-error/10 text-error text-[8px] px-1.5 py-0.5 rounded">{{ $branch->slug }}</span>
-                            @endforeach
+            @foreach($branchRevenue as $name => $revenue)
+                <div class="relative pt-1">
+                    <div class="flex mb-2 items-center justify-between">
+                        <div>
+                            <span class="text-xs font-bold inline-block py-1 px-2 uppercase rounded-full text-primary bg-primary-container/20">
+                                {{ explode(' ', $name)[2] ?? $name }}
+                            </span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] font-black inline-block text-primary">
+                                {{ number_format($revenue) }} TZS
+                            </span>
                         </div>
                     </div>
+                    <div class="overflow-hidden h-1.5 mb-4 text-xs flex rounded bg-primary-container/10">
+                        <div style="width:{{ $totalRevenue > 0 ? ($revenue / $totalRevenue) * 100 : 0 }}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-primary transition-all duration-1000"></div>
+                    </div>
                 </div>
-            @empty
-                <div class="text-center py-12">
-                    <span class="material-symbols-outlined text-4xl text-outline mb-2">check_circle</span>
-                    <p class="text-on-surface-variant italic">All branches well stocked.</p>
-                </div>
-            @endforelse
+            @endforeach
         </div>
     </div>
 </div>

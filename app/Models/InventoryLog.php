@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class InventoryLog extends Model
 {
-    protected $fillable = ['product_id', 'type', 'quantity', 'reason', 'user_id'];
+    protected $fillable = ['product_id', 'type', 'quantity', 'reason', 'user_id', 'branch_id'];
 
     public function product()
     {
@@ -16,5 +16,10 @@ class InventoryLog extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
     }
 }

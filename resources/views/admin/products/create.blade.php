@@ -19,7 +19,7 @@
             </div>
             <div>
                 <label class="label-premium block mb-2">Brand</label>
-                <input type="text" name="brand" class="form-input-premium w-full" placeholder="e.g. Angels Beauty" required>
+                <input type="text" name="brand" class="form-input-premium w-full" placeholder="e.g. Niffer Cosmetic" required>
             </div>
         </div>
 

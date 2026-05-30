@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Customer Dashboard - Angels Beauty</title>
+    <title>Customer Dashboard - Niffer Cosmetic</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -87,7 +87,7 @@
     <!-- SideNavBar -->
     <aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container border-r border-outline-variant flex flex-col py-stack-md z-50">
         <div class="px-6 mb-10">
-            <h1 class="font-headline-sm text-headline-sm text-primary">Angels Beauty</h1>
+            <h1 class="font-headline-sm text-headline-sm text-primary">Niffer Cosmetic</h1>
             <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">My Account</p>
         </div>
         
@@ -137,6 +137,10 @@
     <header class="fixed top-0 left-64 right-0 bg-surface/95 backdrop-blur-md border-b border-outline-variant z-40 flex justify-between items-center px-gutter py-2">
         <div class="flex items-center gap-4 flex-1">
             <h2 class="font-headline-sm text-headline-sm text-on-surface ml-4">Hello, {{ auth()->user()->name }}</h2>
+            <a href="{{ route('home') }}" class="flex items-center gap-2 px-4 py-2 bg-on-background text-white rounded-xl shadow-sm hover:bg-primary transition-all group ml-4">
+                <span class="material-symbols-outlined text-sm">home</span>
+                <span class="text-[10px] font-black uppercase tracking-widest">Home</span>
+            </a>
         </div>
         <div class="flex items-center gap-4">
             <div class="flex items-center gap-2 p-2 bg-primary-container/10 rounded-full border border-primary-container/20">

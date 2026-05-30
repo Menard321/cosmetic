@@ -40,7 +40,7 @@
                     <h2 class="text-2xl font-bold text-on-surface mb-2">Bank Transfers (CRDB/NMB)</h2>
                     <p class="text-on-surface-variant mb-4">For bulk or corporate beauty orders, we accept direct bank transfers.</p>
                     <div class="p-6 bg-surface-container rounded-2xl border border-outline-variant/30 text-sm">
-                        <p class="font-bold mb-2">Angels Beauty Tanzania Ltd</p>
+                        <p class="font-bold mb-2">Niffer Cosmetic Tanzania Ltd</p>
                         <p>Bank: CRDB Bank</p>
                         <p>Account: 015XXXXXXXXXXXX</p>
                         <p>CVV: 000</p>
@@ -51,7 +51,7 @@
             </div>
 
             <div class="mt-12 p-6 bg-primary/5 rounded-3xl border border-primary/20 text-center">
-                <p class="text-on-surface-variant text-sm italic">"Secure, Encrypted, and Reliable. Angels Beauty uses international payment gateway standards to protect every shilling."</p>
+                <p class="text-on-surface-variant text-sm italic">"Secure, Encrypted, and Reliable. Niffer Cosmetic uses international payment gateway standards to protect every shilling."</p>
             </div>
         </div>
     </div>

@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'nextsms' => [
+        'key' => env('NEXTSMS_API_KEY', '96adf70e9dce08ac'),
+        'secret' => env('NEXTSMS_SECRET_KEY', 'NjMzYTMwY2ZjODY1Mzg4NTA1ZjlmOTg0ZDhkM2QyZTdlNWI4NzAyYzgwZDZlY2M1M2ZmNTYzODYxZDZhNGM4OA=='),
+        'sender_id' => env('NEXTSMS_SENDER_ID', 'NEXTSMS'),
+        'base_url' => env('NEXTSMS_BASE_URL', 'https://messaging-service.co.tz/api/sms/v1'),
+    ],
+
 ];

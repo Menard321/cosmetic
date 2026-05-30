@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use App\Services\SmsService;
 
 class CheckoutController extends Controller
 {
@@ -30,7 +31,7 @@ class CheckoutController extends Controller
         return view('checkout.checkout', compact('cartItems', 'subtotal', 'shipping', 'vat', 'total'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, SmsService $smsService)
     {
         $request->validate([
             'address' => 'required|string',
@@ -141,6 +142,12 @@ class CheckoutController extends Controller
             session()->forget('cart');
 
             $trackingId = 'SB-' . str_pad($order->id, 5, '0', STR_PAD_LEFT);
+
+            // Send Order Confirmation SMS
+            if ($user->phone) {
+                $smsMessage = "Hi {$user->name}, your Order {$trackingId} for TZS " . number_format($total) . " has been received! Tracking link: " . route('customer.orders');
+                $smsService->sendSms($user->phone, $smsMessage);
+            }
             return redirect()->route('customer.orders')->with('success', "Order [{$trackingId}] placed successfully! Please check your phone for the STK push and enter your PIN.");
 
         } catch (\Exception $e) {

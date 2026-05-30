@@ -9,7 +9,7 @@
                 <p class="mb-6 font-bold text-primary">Last Updated: May 2026</p>
                 
                 <h2 class="text-xl font-black uppercase text-on-surface mt-8 mb-4">1. Information We Collect</h2>
-                <p>At Angels Beauty Tanzania, we prioritize your luxury experience and your privacy. We collect only necessary information to process your beauty orders, including name, shipping address, and phone number for delivery.</p>
+                <p>At Niffer Cosmetic Tanzania, we prioritize your luxury experience and your privacy. We collect only necessary information to process your beauty orders, including name, shipping address, and phone number for delivery.</p>
 
                 <h2 class="text-xl font-black uppercase text-on-surface mt-8 mb-4">2. Security Standards</h2>
                 <p>Your transactional data is protected using TSL/SSL encryption. We do not store your M-Pesa or Bank PIN numbers on our servers. All payments are processed through secure gateways like Mongike.</p>

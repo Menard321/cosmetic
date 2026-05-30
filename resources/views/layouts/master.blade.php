@@ -108,67 +108,146 @@
 </head>
 <body class="bg-background text-on-background font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
 <!-- Top Navigation Bar -->
-<nav class="bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-md text-primary dark:text-primary-fixed-dim docked full-width top-0 sticky z-50 border-b border-outline-variant/30 shadow-sm">
-<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
-<div class="flex items-center gap-8">
-<a class="font-headline-md text-headline-md tracking-tighter text-on-surface dark:text-inverse-on-surface" href="{{ route('home') }}">ANGELS BEAUTY</a>
-<div class="hidden md:flex gap-6">
-<a class="font-body-md text-body-md transition-colors duration-300 {{ request()->is('category/skincare') ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary' }}" href="{{ route('category.show', 'skincare') }}">Skincare</a>
-<a class="font-body-md text-body-md transition-colors duration-300 {{ request()->is('category/makeup') ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary' }}" href="{{ route('category.show', 'makeup') }}">Makeup</a>
-<a class="font-body-md text-body-md transition-colors duration-300 {{ request()->is('category/fragrance') ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary' }}" href="{{ route('category.show', 'fragrance') }}">Fragrance</a>
-<a class="font-body-md text-body-md transition-colors duration-300 {{ request()->is('loyalty') ? 'text-pink-600 font-bold border-b-2 border-pink-600 pb-1' : 'text-pink-500 hover:text-pink-700' }} flex items-center gap-1" href="{{ route('customer.loyalty') }}">
-    <span class="material-symbols-outlined text-[18px]">workspace_premium</span>
-    Rewards
-</a>
-<a class="font-body-md text-body-md transition-colors duration-300 {{ request()->is('category/wellness') ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary' }}" href="{{ route('category.show', 'wellness') }}">Wellness</a>
-</div>
-</div>
-<div class="flex items-center gap-4">
-            <!-- Branch Switcher -->
-            <div class="relative group mr-4">
-                <button class="flex items-center gap-2 px-4 py-2 bg-primary-container/10 border border-primary-container/20 rounded-full text-label-sm text-primary font-bold hover:bg-primary-container/20 transition-all">
-                    <span class="material-symbols-outlined text-[18px]">location_on</span>
-                    <span>{{ session('active_branch_name', 'Select Branch') }}</span>
-                    <span class="material-symbols-outlined text-[16px] group-hover:rotate-180 transition-transform">expand_more</span>
-                </button>
-                <div class="absolute top-full left-0 mt-2 w-56 bg-white border border-outline-variant shadow-2xl rounded-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 overflow-hidden">
-                    <div class="p-4 border-b border-outline-variant bg-surface-container-low">
-                        <p class="text-[10px] uppercase font-bold text-on-surface-variant tracking-widest">Select Location</p>
-                    </div>
-                    @foreach($all_branches as $branch)
-                        <a href="{{ route('branches.switch', $branch->slug) }}" class="flex items-center justify-between px-4 py-3 hover:bg-primary-container/10 transition-all {{ session('active_branch_id') == $branch->id ? 'bg-primary-container/5 text-primary' : 'text-on-surface' }}">
-                            <div class="flex flex-col">
-                                <span class="font-bold text-sm">{{ $branch->name }}</span>
-                                <span class="text-[10px] text-on-surface-variant">{{ $branch->location }}</span>
-                            </div>
-                            @if(session('active_branch_id') == $branch->id)
-                                <span class="material-symbols-outlined text-[18px] text-primary">check_circle</span>
-                            @endif
+<!-- Top Navigation Bar -->
+<nav class="bg-white/90 dark:bg-on-background/90 backdrop-blur-xl text-on-surface docked full-width top-0 sticky z-50 border-b border-outline-variant/10 shadow-sm transition-all duration-500">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-3 md:py-4">
+        <div class="flex justify-between items-center gap-8">
+            <!-- Brand Logo -->
+            <a class="flex flex-col group" href="{{ route('home') }}">
+                <span class="font-headline-md text-3xl md:text-4xl tracking-tighter text-on-surface group-hover:text-primary transition-all duration-500 transform group-active:scale-95 leading-none">Niffer</span>
+                <span class="text-[10px] uppercase font-black tracking-[0.4em] text-primary mt-1 opacity-80 group-hover:opacity-100 transition-opacity">Cosmetic</span>
+            </a>
+
+            <!-- Main Navigation (Config-Driven Mega Menu) -->
+            <div class="hidden xl:flex items-center gap-2">
+                @foreach($megaMenuData as $key => $category)
+                    <div class="relative group py-4">
+                        <a href="{{ route('category.show', $key) }}" class="flex items-center gap-1.5 px-4 py-2 rounded-xl font-label-md text-on-surface-variant group-hover:text-primary group-hover:bg-primary-container/10 transition-all duration-300">
+                            {{ $category['label'] }}
+                            <span class="material-symbols-outlined text-[16px] group-hover:rotate-180 transition-transform duration-300">expand_more</span>
                         </a>
-                    @endforeach
-                </div>
+
+                        <!-- Mega Dropdown Panel -->
+                        <div class="absolute top-full left-0 mt-0 w-[600px] bg-white border border-outline-variant/30 shadow-2xl rounded-b-[2rem] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-500 z-50 overflow-hidden transform translate-y-4 group-hover:translate-y-0">
+                            <div class="flex">
+                                <!-- Left Info Section -->
+                                <div class="w-1/3 bg-surface-container-low p-8 border-r border-outline-variant/30">
+                                    <h3 class="font-headline-sm text-2xl text-on-surface mb-2">{{ $category['label'] }}</h3>
+                                    <p class="text-xs text-on-surface-variant leading-relaxed mb-6 opacity-70">{{ $category['description'] }}</p>
+                                    <a href="{{ route('category.show', $key) }}" class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary hover:gap-4 transition-all">
+                                        Explore All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                                    </a>
+                                </div>
+                                <!-- Right Subcategories Section -->
+                                <div class="w-2/3 p-8 grid grid-cols-2 gap-y-4 gap-x-8">
+                                    @foreach($category['subcategories'] as $sub)
+                                        <a href="/category/{{ $key }}/{{ $sub['slug'] }}" class="flex items-center gap-2 group/item">
+                                            <div class="w-1.5 h-1.5 rounded-full bg-outline-variant group-hover/item:bg-primary transition-colors"></div>
+                                            <span class="text-sm text-on-surface-variant group-hover/item:text-primary group-hover/item:font-bold transition-all">{{ $sub['name'] }}</span>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <!-- Bottom Banner (Optional) -->
+                            <div class="bg-primary/5 px-8 py-3 flex justify-between items-center">
+                                <span class="text-[9px] uppercase font-black tracking-tighter text-primary opacity-60">Free shipping on all {{ $category['label'] }} orders over 50,000 TZS</span>
+                                <span class="material-symbols-outlined text-sm text-primary">verified</span>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+                
+                <a href="{{ route('customer.loyalty') }}" class="ml-4 flex items-center gap-2 px-5 py-2 bg-pink-50/50 text-pink-600 rounded-full font-black text-[11px] uppercase tracking-widest hover:bg-pink-600 hover:text-white transition-all duration-500 shadow-sm shadow-pink-100 group">
+                    <span class="material-symbols-outlined text-[18px] group-hover:rotate-12 transition-transform">workspace_premium</span>
+                    Rewards
+                </a>
             </div>
 
-            <form action="{{ route('products.index') }}" method="GET" class="hidden lg:flex items-center bg-surface-container-high rounded-full px-4 py-2 w-64">
-                <span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
-                <input name="q" value="{{ request('q') }}" class="bg-transparent border-none focus:ring-0 text-label-md w-full" placeholder="Search brands..." type="text"/>
-            </form>
-<div class="flex gap-2 md:gap-4">
-<a href="{{ route('customer.wishlist') }}" class="hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform"><span class="material-symbols-outlined">favorite</span></a>
-<a href="{{ route('cart.index') }}" class="hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform relative">
-    <span class="material-symbols-outlined">shopping_bag</span>
-    @if(session('cart'))
-        <span class="absolute -top-1 -right-1 bg-primary text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center">{{ count(session('cart')) }}</span>
-    @endif
-</a>
-<a href="{{ route('dashboard') }}" class="hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform"><span class="material-symbols-outlined">person</span></a>
-</div>
-</div>
-</div>
+            <!-- Actions Wrapper -->
+            <div class="flex items-center gap-6 flex-1 justify-end max-w-2xl">
+                <!-- Branch Switcher -->
+                <div class="relative group hidden sm:block">
+                    <button class="flex items-center gap-3 px-5 py-2.5 bg-surface-container-low border border-outline-variant/20 rounded-2xl hover:bg-white hover:shadow-xl hover:shadow-primary-container/10 transition-all duration-500 group">
+                        <div class="w-8 h-8 rounded-xl bg-primary-container/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">location_on</span>
+                        </div>
+                        <div class="flex flex-col items-start min-w-[100px]">
+                            <span class="text-[8px] uppercase font-black text-on-surface-variant tracking-tighter leading-none mb-1 opacity-60">Your Branch</span>
+                            <span class="text-[11px] font-bold text-on-surface truncate max-w-[120px]">{{ session('active_branch_name', 'Select Branch') }}</span>
+                        </div>
+                        <span class="material-symbols-outlined text-[18px] text-on-surface-variant group-hover:rotate-180 transition-transform">expand_more</span>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div class="absolute top-full right-0 mt-4 w-72 bg-white border border-outline-variant shadow-2xl rounded-[1.5rem] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-500 z-50 overflow-hidden transform translate-y-2 group-hover:translate-y-0">
+                        <div class="p-6 bg-surface-container-low border-b border-outline-variant/30">
+                            <h4 class="text-[10px] uppercase font-black text-primary tracking-[0.2em]">Select Destination</h4>
+                        </div>
+                        <div class="max-h-[300px] overflow-y-auto">
+                            @foreach($all_branches as $branch)
+                                <a href="{{ route('branches.switch', $branch->slug) }}" class="flex items-center gap-4 px-6 py-4 hover:bg-primary-container/10 transition-all {{ session('active_branch_id') == $branch->id ? 'bg-primary-container/5 border-l-4 border-primary' : '' }}">
+                                    <div class="flex-1">
+                                        <p class="font-bold text-on-surface text-sm">{{ $branch->name }}</p>
+                                        <p class="text-[10px] text-on-surface-variant">{{ $branch->location }}</p>
+                                    </div>
+                                    @if(session('active_branch_id') == $branch->id)
+                                        <span class="material-symbols-outlined text-primary text-sm">verified</span>
+                                    @endif
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Search Dropdown -->
+                <div class="relative group">
+                    <button class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-primary-container/10 text-on-surface-variant hover:text-primary transition-all duration-300">
+                        <span class="material-symbols-outlined">search</span>
+                    </button>
+                    <!-- Search Panel -->
+                    <div class="absolute top-full right-0 mt-4 w-[350px] bg-white border border-outline-variant/30 shadow-2xl rounded-[2rem] opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-500 z-50 p-6 transform translate-y-4 group-hover:translate-y-0 focus-within:translate-y-0 mx-4 md:mx-0">
+                        <div class="mb-4 flex items-center justify-between">
+                            <h4 class="text-[10px] uppercase font-black text-primary tracking-[0.2em]">Find your Radiance</h4>
+                            <span class="material-symbols-outlined text-outline text-sm">auto_awesome</span>
+                        </div>
+                        <form action="{{ route('products.index') }}" method="GET">
+                            <div class="relative items-center flex">
+                                <span class="material-symbols-outlined absolute left-4 text-primary">search</span>
+                                <input name="q" value="{{ request('q') }}" class="w-full bg-surface-container-low border-none focus:ring-2 focus:ring-primary/20 rounded-2xl py-4 pl-12 pr-4 text-label-md font-medium" placeholder="Search brands, scents, or skin goals..." autofocus/>
+                            </div>
+                        </form>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <p class="text-[9px] text-on-surface-variant font-bold uppercase w-full mb-1 opacity-60">Trending Searches:</p>
+                            <a href="/search?q=fragrance" class="text-[10px] bg-surface-container px-3 py-1.5 rounded-full hover:bg-primary/10 hover:text-primary transition-colors">Dior Scent</a>
+                            <a href="/search?q=serum" class="text-[10px] bg-surface-container px-3 py-1.5 rounded-full hover:bg-primary/10 hover:text-primary transition-colors">Vitamin C</a>
+                            <a href="/search?q=sunscreen" class="text-[10px] bg-surface-container px-3 py-1.5 rounded-full hover:bg-primary/10 hover:text-primary transition-colors">SPF 50+</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Icon Buttons -->
+                <div class="flex items-center gap-3">
+                    <a href="{{ route('customer.wishlist') }}" class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-pink-50 text-on-surface-variant hover:text-pink-600 transition-all duration-300">
+                        <span class="material-symbols-outlined">favorite</span>
+                    </a>
+                    <a href="{{ route('cart.index') }}" class="relative w-10 h-10 flex items-center justify-center rounded-xl hover:bg-primary-container/10 text-on-surface-variant hover:text-primary transition-all duration-300">
+                        <span class="material-symbols-outlined">shopping_bag</span>
+                        @if(session('cart') && count(session('cart')) > 0)
+                            <span class="absolute -top-1 -right-1 bg-primary text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-lg animate-bounce">
+                                {{ count(session('cart')) }}
+                            </span>
+                        @endif
+                    </a>
+                    <a href="{{ route('dashboard') }}" class="w-10 h-10 flex items-center justify-center rounded-xl bg-on-background text-white hover:bg-primary hover:shadow-xl transition-all duration-500">
+                        <span class="material-symbols-outlined">person</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </nav>
 <main class="relative">
     <!-- Quick Access Navigation (Hidden on Home) -->
-    @if(!request()->routeIs('home'))
+    @if(!request()->routeIs('home') && !request()->is('admin*'))
     <div class="sticky top-20 z-40 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto pointer-events-none">
         <div class="flex gap-2 pt-4 pointer-events-auto">
             <button onclick="window.history.back()" class="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-md border border-outline-variant/30 rounded-xl shadow-sm hover:bg-primary hover:text-white transition-all group">
@@ -189,7 +268,7 @@
 <footer class="bg-surface dark:bg-on-background border-t border-outline-variant pt-stack-lg pb-10">
 <div class="grid grid-cols-2 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-12">
 <div>
-<h3 class="font-headline-sm text-headline-sm text-on-surface dark:text-inverse-on-surface mb-6">ANGELS BEAUTY</h3>
+<h3 class="font-headline-sm text-headline-sm text-on-surface dark:text-inverse-on-surface mb-6">Niffer Cosmetic</h3>
 <p class="text-secondary font-body-md mb-6">Tanzania's premier destination for high-end beauty and skincare excellence.</p>
 <div class="flex gap-4">
 <a class="text-secondary hover:text-pink-600 transition-all text-xl" href="https://www.instagram.com/niffer_cosmetics_/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
@@ -224,7 +303,7 @@
 </div>
 </div>
 <div class="border-t border-outline-variant/30 pt-8 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-<p class="font-label-md text-label-md text-secondary">© 2023 Angels Beauty Tanzania. All Rights Reserved.</p>
+<p class="font-label-md text-label-md text-secondary">© 2023 Niffer Cosmetic Tanzania. All Rights Reserved.</p>
 <div class="flex gap-6 items-center opacity-60">
 <img alt="M-Pesa" class="h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnNRX9Fh8b2lcSv28dGmoCitvHXAjErZ_Dq9sljeaAjVjDpDHXBNimO5CzIKPFoXHVFzCBYG9r0RR77SeWzjNOeP1RT6Tfk6mC3XbHENm1RlF9xTzt6Oymp4zq62iJTt3VRfndjIPlKyvMJTIOS5Fz_1kMVD5EnU3RkrRZR5BPnuGOskHlxjvt7-LEus3wH1g0ZNvxtQB9IUsp9dKf-NvngO9CNjvG7_wnH6QBbVLf0uejcKPJ_1smoBGMnxL6gmK-LCjDtUK3ZHc"/>
 <img alt="Airtel" class="h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3dL59m_Fe8j8Lq3YghhGM5IPh6yTzNzMtpO6kWxf-G0faOE1wUJ10P_u8rcZdjd-cpJQqV7VcrRS0UnMQHnbJpVcFO8WkOdlDOAuZq2K6_PVo4EiPHCWaQHg041yqk0chRSbBurrcTNFSf6-9X_qWIXYCdXWOYyxqkRLvjm2ECQZKXayOsoin7hL3GF0xexQx2pVLr04RQdaN8VZESIrHYZP0BQd9P7aBLw8WLq923EK-_i1FQmkObOGgjq3DKkjYqlyYUeoQkJg"/>

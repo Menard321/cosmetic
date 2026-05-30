@@ -4,8 +4,20 @@
 <!-- Category Header -->
 <div class="bg-surface-container-low py-16 text-center border-b border-outline-variant/30">
     <div class="max-w-2xl mx-auto px-4">
-        <h1 class="font-display-lg text-display-lg text-on-surface mb-2">{{ $category->name }}</h1>
-        <p class="font-body-lg text-on-surface-variant text-label-md">{{ $category->description }}</p>
+        <h1 class="font-display-lg text-display-lg text-on-surface mb-2">
+            @isset($subcategorySlug)
+                {{ ucwords(str_replace('-', ' ', $subcategorySlug)) }}
+            @else
+                {{ $category->name }}
+            @endisset
+        </h1>
+        <p class="font-body-lg text-on-surface-variant text-label-md">
+            @isset($subcategorySlug)
+                Discover our exclusive {{ str_replace('-', ' ', $subcategorySlug) }} collection within {{ $category->name }}.
+            @else
+                {{ $category->description }}
+            @endisset
+        </p>
     </div>
 </div>
 

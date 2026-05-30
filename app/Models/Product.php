@@ -46,4 +46,9 @@ class Product extends Model
     {
         return $this->hasMany(InventoryLog::class);
     }
+
+    public function orders()
+    {
+        return $this->hasManyThrough(Order::class, OrderItem::class, 'product_id', 'id', 'id', 'order_id');
+    }
 }

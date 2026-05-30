@@ -246,7 +246,7 @@
                 <div class="flex items-start gap-4 mb-8">
                     <input type="checkbox" id="terms" class="mt-1 w-4 h-4 accent-on-background" required />
                     <label for="terms" class="font-body-md text-on-surface-variant leading-relaxed">
-                        I understand this is a <strong class="text-on-surface">booking request</strong> and that a Angels Beauty consultant will confirm or reschedule my appointment via email or phone within 24 hours.
+                        I understand this is a <strong class="text-on-surface">booking request</strong> and that a Niffer Cosmetic consultant will confirm or reschedule my appointment via email or phone within 24 hours.
                     </label>
                 </div>
                 <div class="flex flex-col sm:flex-row gap-4 items-center">

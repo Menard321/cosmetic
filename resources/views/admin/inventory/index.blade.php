@@ -26,10 +26,13 @@
         </div>
         <div class="space-y-3">
             @forelse($lowStockProducts as $p)
+                @php
+                    $currentStock = $branchId ? $p->getStockForBranch($branchId) : $p->stock_quantity;
+                @endphp
                 <div class="flex justify-between items-center bg-white/50 p-3 rounded-lg border border-outline-variant/30">
                     <div>
                         <p class="font-bold text-sm">{{ $p->name }}</p>
-                        <p class="text-[10px] text-error font-medium">Currently: {{ $p->stock_quantity }} units</p>
+                        <p class="text-[10px] text-error font-medium">Currently: {{ $currentStock }} units</p>
                     </div>
                     <a href="{{ route('admin.inventory.restock', $p->id) }}" class="text-primary text-xs font-bold hover:underline">Restock</a>
                 </div>
@@ -68,7 +71,7 @@
             <thead class="bg-surface-container-low text-on-surface-variant font-label-sm uppercase tracking-widest">
                 <tr>
                     <th class="px-6 py-4">Product Detail</th>
-                    <th class="px-6 py-4">Total Stock</th>
+                    <th class="px-6 py-4">{{ $branchId ? 'Local Stock' : 'Total Stock' }}</th>
                     <th class="px-6 py-4">Status</th>
                     <th class="px-6 py-4">Latest Batches</th>
                     <th class="px-6 py-4 text-right">Operation</th>
@@ -76,18 +79,21 @@
             </thead>
             <tbody class="divide-y divide-outline-variant/20">
                 @foreach($products as $product)
+                @php
+                    $displayStock = $branchId ? $product->getStockForBranch($branchId) : $product->stock_quantity;
+                @endphp
                 <tr>
                     <td class="px-6 py-4">
                         <p class="font-bold text-on-surface">{{ $product->name }}</p>
                         <p class="text-[10px] text-on-surface-variant uppercase">{{ $product->brand }}</p>
                     </td>
                     <td class="px-6 py-4">
-                        <span class="font-headline-sm text-headline-sm text-primary">{{ $product->stock_quantity }}</span>
+                        <span class="font-headline-sm text-headline-sm text-primary">{{ $displayStock }}</span>
                     </td>
                     <td class="px-6 py-4">
-                        @if($product->stock_quantity == 0)
-                            <span class="px-2 py-1 bg-error text-white text-[10px] rounded font-bold">OUT OF STOCK (AUTO-DISABLED)</span>
-                        @elseif($product->stock_quantity < 10)
+                        @if($displayStock == 0)
+                            <span class="px-2 py-1 bg-error text-white text-[10px] rounded font-bold">OUT OF STOCK</span>
+                        @elseif($displayStock < 10)
                             <span class="px-2 py-1 bg-error-container text-on-error-container text-[10px] rounded font-bold uppercase">Critical</span>
                         @else
                             <span class="px-2 py-1 bg-primary-container/20 text-primary text-[10px] rounded font-bold uppercase">Healthy</span>

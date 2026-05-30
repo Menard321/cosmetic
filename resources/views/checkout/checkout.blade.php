@@ -70,7 +70,7 @@
 
 <section class="py-stack-lg bg-surface-container-low min-h-screen">
     <div class="px-margin-mobile md:px-margin-desktop max-w-[1200px] mx-auto">
-        <h1 class="font-headline-md text-headline-md text-pink-600 mb-stack-lg">Angels Beauty <span class="text-on-surface font-light">| Checkout</span></h1>
+        <h1 class="font-headline-md text-headline-md text-pink-600 mb-stack-lg">Niffer Cosmetic <span class="text-on-surface font-light">| Checkout</span></h1>
 
         <form id="checkout-form" action="{{ route('checkout.store') }}" method="POST">
             @csrf
@@ -89,7 +89,7 @@
                             <span class="w-10 h-10 rounded-2xl bg-pink-500 text-white flex items-center justify-center font-bold shadow-lg shadow-pink-200">1</span>
                             <div>
                                 <h2 class="font-bold text-on-surface text-lg">Delivery Exact Location</h2>
-                                <p class="text-xs text-on-surface-variant italic">Pinpoint your house/office for the Angels rider</p>
+                                <p class="text-xs text-on-surface-variant italic">Pinpoint your house/office for the Niffer rider</p>
                             </div>
                         </div>
 
@@ -264,7 +264,7 @@
                              <span class="material-symbols-outlined text-pink-600">info</span>
                              <p class="text-[10px] text-on-surface-variant leading-relaxed">
                                 <span class="font-black text-pink-600 italic">IMPORTANT:</span> 
-                                Please ensure your payment phone has enough balance.Angels Beauty processes mobile money instantly to prioritize your delivery slot.
+                                Please ensure your payment phone has enough balance.Niffer Cosmetic processes mobile money instantly to prioritize your delivery slot.
                              </p>
                         </div>
                     </div>
@@ -273,7 +273,7 @@
                 <!-- Order Summary -->
                 <div class="lg:col-span-12 xl:col-span-4">
                     <div class="bg-on-background p-8 sticky top-24 border border-outline-variant/20 shadow-2xl rounded-3xl text-white">
-                        <h2 class="font-bold uppercase tracking-widest text-pink-400 border-b border-white/10 pb-4 mb-6">Review Angels Bag</h2>
+                        <h2 class="font-bold uppercase tracking-widest text-pink-400 border-b border-white/10 pb-4 mb-6">Review Niffer Bag</h2>
                         
                         <div class="max-h-60 overflow-y-auto mb-6 pr-2 space-y-4">
                             @foreach($cartItems as $item)
@@ -350,7 +350,7 @@
         const pinkIcon = L.divIcon({
             className: 'custom-div-icon',
             html: `
-                <div style="background-color: #ec4899; width: 30px; height: 300px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); display: flex; align-items: center; justify-content: center; position: relative; border: 3px solid white; box-shadow: 0 5px 15px rgba(236,72,153,0.4);">
+                <div style="background-color: #ec4899; width: 30px; height: 30px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); display: flex; align-items: center; justify-content: center; position: relative; border: 3px solid white; box-shadow: 0 5px 15px rgba(236,72,153,0.4);">
                     <div style="width: 10px; height: 10px; background: white; border-radius: 50%; transform: rotate(45deg);"></div>
                 </div>`,
             iconSize: [30, 30],

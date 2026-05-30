@@ -126,7 +126,7 @@
         <div class="mt-12 text-center">
             <p class="text-white/40 text-[10px] uppercase tracking-widest leading-loose">
                 Need assistance? <a href="{{ route('pages.contact') }}" class="text-primary hover:underline">Contact Support</a><br>
-                Available 24/7 for Angels Beauty Members
+                Available 24/7 for Niffer Cosmetic Members
             </p>
         </div>
     </div>

@@ -28,23 +28,37 @@ class User extends Authenticatable
         'role',
         'loyalty_points',
         'loyalty_level',
+        'branch_id',
     ];
 
     /**
-     * Get the user's loyalty level based on points.
+     * Get the user's loyalty level based on the new tiered system.
      */
-    public function calculateLoyaltyLevel()
+    public function getTierAttribute()
     {
-        $points = $this->loyalty_points;
-        if ($points >= 10000) return 'Platinum';
-        if ($points >= 5000) return 'Gold';
-        if ($points >= 1000) return 'Silver';
-        return 'Bronze';
+        return \App\Models\LoyaltyTier::where('min_points', '<=', $this->loyalty_points)
+            ->orderBy('min_points', 'desc')
+            ->first();
     }
 
     public function transactions()
     {
         return $this->hasMany(LoyaltyTransaction::class);
+    }
+
+    public function tickets()
+    {
+        return $this->hasMany(EventTicket::class);
+    }
+
+    public function referrals()
+    {
+        return $this->hasMany(Referral::class, 'referrer_id');
+    }
+
+    public function referralLink()
+    {
+        return route('register', ['ref' => $this->id]);
     }
 
     /**
@@ -99,5 +113,10 @@ class User extends Authenticatable
     public function getOrderCountAttribute()
     {
         return $this->orders()->count();
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
     }
 }

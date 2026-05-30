@@ -26,6 +26,7 @@ Route::get('/location/{branch:slug}', [\App\Http\Controllers\BranchController::c
 Route::middleware(['auth'])->group(function () {
     Route::get('/loyalty', [App\Http\Controllers\LoyaltyController::class, 'dashboard'])->name('customer.loyalty');
     Route::post('/loyalty/redeem/{reward}', [App\Http\Controllers\LoyaltyController::class, 'redeem'])->name('customer.loyalty.redeem');
+    Route::post('/loyalty/events/{event}/book', [App\Http\Controllers\LoyaltyController::class, 'bookEvent'])->name('customer.loyalty.book-event');
 });
 
 // Temporary dev route to gain admin access
@@ -79,6 +80,81 @@ Route::middleware(['auth', 'role:admin|super-admin'])->group(function () {
         'update' => 'admin.products.update',
         'destroy' => 'admin.products.destroy',
     ]);
+
+    // Enterprise Expansion Routes
+    Route::get('admin/analytics', [\App\Http\Controllers\Admin\AnalyticsController::class, 'index'])->name('admin.analytics.index');
+    Route::get('admin/delivery', [\App\Http\Controllers\Admin\DeliveryController::class, 'index'])->name('admin.delivery.index');
+    Route::get('admin/notifications', [\App\Http\Controllers\Admin\NotificationController::class, 'index'])->name('admin.notifications.index');
+    Route::post('admin/notifications/send', [\App\Http\Controllers\Admin\NotificationController::class, 'sendCampaign'])->name('admin.notifications.send');
+
+    // Loyalty & CRM Intelligence
+    Route::prefix('admin/loyalty')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Admin\LoyaltyManagementController::class, 'index'])->name('admin.loyalty.index');
+        Route::resource('campaigns', \App\Http\Controllers\Admin\LoyaltyCampaignController::class)->names('admin.loyalty.campaigns');
+        Route::resource('tiers', \App\Http\Controllers\Admin\LoyaltyTierController::class)->names('admin.loyalty.tiers');
+        Route::resource('events', \App\Http\Controllers\Admin\BeautyEventController::class)->names('admin.loyalty.events');
+        Route::patch('events/tickets/{ticket}/check-in', [\App\Http\Controllers\Admin\BeautyEventController::class, 'checkInTicket'])->name('admin.loyalty.events.check-in');
+        Route::get('redemptions', [\App\Http\Controllers\Admin\LoyaltyManagementController::class, 'redemptions'])->name('admin.loyalty.redemptions');
+    });
+
+    // EMS - Employee Management System
+    Route::prefix('admin/ems')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Admin\EmployeeController::class, 'dashboard'])->name('admin.ems.dashboard');
+        
+        // Employees
+        Route::resource('employees', \App\Http\Controllers\Admin\EmployeeController::class)->names([
+            'index' => 'admin.ems.employees.index',
+            'create' => 'admin.ems.employees.create',
+            'store' => 'admin.ems.employees.store',
+            'show' => 'admin.ems.employees.show',
+            'edit' => 'admin.ems.employees.edit',
+            'update' => 'admin.ems.employees.update',
+            'destroy' => 'admin.ems.employees.destroy',
+        ]);
+
+        // Attendance
+        Route::get('attendance', [\App\Http\Controllers\Admin\AttendanceController::class, 'index'])->name('admin.ems.attendance.index');
+        Route::post('attendance', [\App\Http\Controllers\Admin\AttendanceController::class, 'store'])->name('admin.ems.attendance.store');
+        Route::post('attendance/bulk', [\App\Http\Controllers\Admin\AttendanceController::class, 'markPresent'])->name('admin.ems.attendance.bulk');
+
+        // Leaves
+        Route::get('leaves', [\App\Http\Controllers\Admin\LeaveController::class, 'index'])->name('admin.ems.leaves.index');
+        Route::post('leaves', [\App\Http\Controllers\Admin\LeaveController::class, 'store'])->name('admin.ems.leaves.store');
+        Route::patch('leaves/{leaveRequest}/approve', [\App\Http\Controllers\Admin\LeaveController::class, 'approve'])->name('admin.ems.leaves.approve');
+        Route::patch('leaves/{leaveRequest}/reject', [\App\Http\Controllers\Admin\LeaveController::class, 'reject'])->name('admin.ems.leaves.reject');
+
+        // Payroll
+        Route::get('payroll', [\App\Http\Controllers\Admin\PayrollController::class, 'index'])->name('admin.ems.payroll.index');
+        Route::post('payroll/generate', [\App\Http\Controllers\Admin\PayrollController::class, 'generatePayroll'])->name('admin.ems.payroll.generate');
+        Route::patch('payroll/{payrollRecord}/pay', [\App\Http\Controllers\Admin\PayrollController::class, 'markPaid'])->name('admin.ems.payroll.mark-paid');
+        Route::post('payroll/bulk-pay', [\App\Http\Controllers\Admin\PayrollController::class, 'bulkMarkPaid'])->name('admin.ems.payroll.bulk-pay');
+
+        // Performance
+        Route::get('performance', [\App\Http\Controllers\Admin\PerformanceController::class, 'index'])->name('admin.ems.performance.index');
+        Route::post('performance', [\App\Http\Controllers\Admin\PerformanceController::class, 'store'])->name('admin.ems.performance.store');
+
+        // Shifts
+        Route::resource('shifts', \App\Http\Controllers\Admin\ShiftController::class)->names([
+            'index' => 'admin.ems.shifts.index',
+            'store' => 'admin.ems.shifts.store',
+            'update' => 'admin.ems.shifts.update',
+            'destroy' => 'admin.ems.shifts.destroy',
+        ])->only(['index', 'store', 'update', 'destroy']);
+
+        Route::get('shift-assignments', [\App\Http\Controllers\Admin\EmployeeShiftController::class, 'index'])->name('admin.ems.shifts.assignments');
+        Route::post('shift-assignments', [\App\Http\Controllers\Admin\EmployeeShiftController::class, 'store'])->name('admin.ems.shifts.assignments.store');
+        Route::delete('shift-assignments/{id}', [\App\Http\Controllers\Admin\EmployeeShiftController::class, 'destroy'])->name('admin.ems.shifts.assignments.destroy');
+
+        // Transfers
+        Route::get('transfers', [\App\Http\Controllers\Admin\TransferController::class, 'index'])->name('admin.ems.transfers.index');
+        Route::post('transfers', [\App\Http\Controllers\Admin\TransferController::class, 'store'])->name('admin.ems.transfers.store');
+        // Corrected parameter name from transfer to employeeTransfer to match route binder
+        Route::patch('transfers/{employeeTransfer}/approve', [\App\Http\Controllers\Admin\TransferController::class, 'approve'])->name('admin.ems.transfers.approve');
+        Route::patch('transfers/{employeeTransfer}/cancel', [\App\Http\Controllers\Admin\TransferController::class, 'cancel'])->name('admin.ems.transfers.cancel');
+
+        // Reports
+        Route::get('reports', [\App\Http\Controllers\Admin\HRReportController::class, 'index'])->name('admin.ems.reports.index');
+    });
 });
 
 Route::middleware(['auth', 'role:vendor'])->group(function () {
@@ -90,6 +166,7 @@ Route::middleware(['auth', 'role:delivery-rider'])->group(function () {
 });
 
 Route::get('/category/{slug}', [App\Http\Controllers\CategoryController::class, 'show'])->middleware('auth')->name('category.show');
+Route::get('/category/{category}/{subcategory}', [App\Http\Controllers\CategoryController::class, 'subcategory'])->middleware('auth')->name('category.subcategory');
 
 // Product Routes
 Route::get('/products', [App\Http\Controllers\ProductController::class, 'index'])->middleware('auth')->name('products.index');

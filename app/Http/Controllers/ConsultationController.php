@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Consultation;
 use Illuminate\Http\Request;
+use App\Services\SmsService;
 
 class ConsultationController extends Controller
 {
@@ -18,7 +19,7 @@ class ConsultationController extends Controller
     /**
      * Store a new consultation booking in the database.
      */
-    public function store(Request $request)
+    public function store(Request $request, SmsService $smsService)
     {
         $validated = $request->validate([
             'name'           => 'required|string|max:255',
@@ -32,7 +33,11 @@ class ConsultationController extends Controller
 
         $validated['status'] = Consultation::STATUS_PENDING;
 
-        Consultation::create($validated);
+        $consultation = Consultation::create($validated);
+
+        // Send Confirmation SMS
+        $smsMessage = "Hi {$consultation->name}, your skincare consultation booking for {$consultation->preferred_date} has been received. We will confirm shortly. - Niffer Cosmetic";
+        $smsService->sendSms($consultation->phone_number, $smsMessage);
 
         return redirect()->route('home')
             ->with('success', 'Your consultation request has been submitted! We will confirm your appointment within 24 hours.');

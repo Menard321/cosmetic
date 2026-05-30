@@ -8,7 +8,7 @@
              <img src="https://images.unsplash.com/photo-1596462502278-27bfaf433394?q=80&w=2000&auto=format&fit=crop" class="w-full h-full object-cover opacity-60">
         </div>
         <div class="relative text-center px-6">
-            <h1 class="font-display-lg text-white text-6xl md:text-8xl mb-6">Angels Beauty</h1>
+            <h1 class="font-display-lg text-white text-6xl md:text-8xl mb-6">Niffer Cosmetic</h1>
             <p class="text-primary tracking-[0.4em] uppercase font-bold text-lg">Excellence in Every Glow</p>
         </div>
     </div>
@@ -20,7 +20,7 @@
             <div class="text-center">
                 <h2 class="text-4xl font-headline-md mb-8">The Tanzanian Heritage</h2>
                 <p class="text-xl text-on-surface-variant leading-relaxed font-body-lg italic">
-                    "Angels Beauty was born from a simple realization: Tanzanian women deserve world-class skincare that respects their skin's unique needs and the vibrant spirit of our nation."
+                    "Niffer Cosmetic was born from a simple realization: Tanzanian women deserve world-class skincare that respects their skin's unique needs and the vibrant spirit of our nation."
                 </p>
             </div>
 
@@ -36,7 +36,7 @@
 
             <div class="bg-surface-container-low p-20 rounded-[4rem] text-center space-y-8">
                 <h3 class="text-3xl font-black text-on-surface uppercase tracking-tighter">International Standards. Local Heart.</h3>
-                <p class="text-on-surface-variant max-w-2xl mx-auto">From our temperature-controlled logistic hubs to our expert beauty consultants, every touchpoint of Angels Beauty is designed to meet the rigorous standards of international luxury retail.</p>
+                <p class="text-on-surface-variant max-w-2xl mx-auto">From our temperature-controlled logistic hubs to our expert beauty consultants, every touchpoint of Niffer Cosmetic is designed to meet the rigorous standards of international luxury retail.</p>
                 <div class="flex flex-wrap justify-center gap-12 pt-12 opacity-50">
                     <div class="flex flex-col items-center">
                         <span class="material-symbols-outlined text-4xl mb-2">verified</span>

@@ -62,6 +62,14 @@ class RolesAndPermissionsSeeder extends Seeder
             'rider dashboard',
         ]);
 
+        // Branch Manager
+        $role = Role::create(['name' => 'branch-manager']);
+        $role->givePermissionTo([
+            'manage orders',
+            'manage inventory',
+            'admin dashboard',
+        ]);
+
         // Customer
         $role = Role::create(['name' => 'customer']);
         // Customers might not need specific permissions for standard web routes, 

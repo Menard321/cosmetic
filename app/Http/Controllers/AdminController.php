@@ -27,7 +27,13 @@ class AdminController extends Controller
         $totalRevenue = $query->sum('total_amount');
         $totalOrders = $orderQuery->count();
         $totalProducts = Product::count();
+        $totalCustomers = \App\Models\User::role('customer')->count();
         
+        $recentCustomers = \App\Models\User::role('customer')
+            ->latest()
+            ->limit(5)
+            ->get(['name', 'email', 'created_at', 'phone']);
+
         // Branch specific revenue for the chart
         $branchRevenue = [];
         foreach ($branches as $branch) {
@@ -51,6 +57,8 @@ class AdminController extends Controller
             'totalRevenue', 
             'totalOrders', 
             'totalProducts', 
+            'totalCustomers',
+            'recentCustomers',
             'urgentAlerts', 
             'branches',
             'branchRevenue',

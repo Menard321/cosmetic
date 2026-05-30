@@ -4,7 +4,7 @@
 <!-- Hero Section -->
 <section class="relative h-[819px] w-full flex items-center overflow-hidden">
 <div class="absolute inset-0 z-0">
-<img class="w-full h-full object-cover" data-alt="Angels Beauty Luxury Banner" src="{{ asset('niffer/8.jpeg') }}"/>
+<img class="w-full h-full object-cover" data-alt="Niffer Cosmetic Luxury Banner" src="{{ asset('niffer/8.jpeg') }}"/>
 <div class="absolute inset-0 bg-gradient-to-r from-background/60 via-background/20 to-transparent"></div>
 </div>
 <div class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
@@ -14,7 +14,7 @@
         <span class="text-[10px] uppercase font-bold text-white tracking-widest">Now Shopping: {{ session('active_branch_name', 'Main Mall') }}</span>
     </div>
 <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-stack-md leading-tight">
-                        The Art of <br/><span class="text-primary italic">Angels Beauty</span>
+                        The Art of <br/><span class="text-primary italic">Niffer Cosmetic</span>
 </h1>
 <p class="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg max-w-md">
                         Discover a curated collection of global luxury and local radiance, tailored for the sophisticated Tanzanian spirit.
@@ -81,30 +81,93 @@
 </div>
 
 <!-- Branch Destinations -->
-<section class="py-stack-lg bg-white relative overflow-hidden">
+@php
+    $branchImages = ['niffer/14.png', 'niffer/16.png', 'niffer/15.png'];
+@endphp
+<section class="py-24 bg-white relative overflow-hidden">
     <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent"></div>
+
+    {{-- Decorative background accent --}}
+    <div class="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-primary-container/10 blur-3xl pointer-events-none"></div>
+
     <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-16">
-            <h2 class="font-headline-md text-headline-md text-on-surface">Our Luxury Destinations</h2>
-            <a href="{{ route('branches.index') }}" class="text-primary font-bold uppercase tracking-widest text-[10px] flex items-center gap-2 hover:translate-x-2 transition-transform">
-                View All Branches <span class="material-symbols-outlined">arrow_forward</span>
+        {{-- Section Header --}}
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-4">
+            <div>
+                <p class="text-[10px] uppercase font-black tracking-[0.3em] text-primary mb-3">Where Beauty Lives</p>
+                <h2 class="font-headline-md text-[40px] leading-tight text-on-surface">Our Luxury <span class="italic text-primary">Destinations</span></h2>
+            </div>
+            <a href="{{ route('branches.index') }}" class="flex items-center gap-2 text-on-surface font-black uppercase tracking-widest text-[10px] border-b border-on-surface pb-1 hover:text-primary hover:border-primary transition-all group">
+                View All Branches
+                <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </a>
         </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            @foreach($all_branches->take(3) as $branch)
-                <div class="group cursor-pointer" onclick="window.location.href='{{ route('branches.show', $branch->slug) }}'">
-                    <div class="relative aspect-[3/4] rounded-[2rem] overflow-hidden mb-6 shadow-2xl">
-                        <img src="https://images.unsplash.com/photo-1541604193435-220b2f3bd963?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" alt="{{ $branch->name }}">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                        <div class="absolute bottom-8 left-8">
-                            <p class="text-primary-container font-bold uppercase tracking-widest text-[10px] mb-2">{{ $branch->location }}</p>
-                            <h3 class="text-3xl font-headline-sm text-white">{{ $branch->name }}</h3>
+
+        {{-- Branch Cards --}}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            @foreach($all_branches->take(3) as $index => $branch)
+            @php $img = $branchImages[$index] ?? 'niffer/14.png'; @endphp
+            <a href="{{ route('branches.show', $branch->slug) }}"
+               class="group block relative overflow-hidden rounded-3xl shadow-2xl"
+               style="height: 520px;">
+
+                {{-- Branch Image --}}
+                <img src="{{ asset($img) }}"
+                     alt="{{ $branch->name }}"
+                     class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110">
+
+                {{-- Gradient overlays --}}
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+                {{-- Top badge --}}
+                <div class="absolute top-6 left-6">
+                    <span class="px-3 py-1 bg-white/15 backdrop-blur-md border border-white/25 rounded-full text-[9px] font-black uppercase tracking-[0.2em] text-white">
+                        Niffer Branch
+                    </span>
+                </div>
+
+                {{-- Bottom Info --}}
+                <div class="absolute bottom-0 left-0 right-0 p-8 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                    {{-- Decorative gold line --}}
+                    <div class="w-8 h-[2px] bg-primary-container mb-4 group-hover:w-16 transition-all duration-500"></div>
+
+                    <p class="text-primary-container font-black uppercase tracking-[0.25em] text-[10px] mb-2">
+                        {{ $branch->location }}
+                    </p>
+                    <h3 class="text-white font-headline-sm text-2xl md:text-3xl leading-tight mb-4">
+                        {{ $branch->name }}
+                    </h3>
+
+                    {{-- CTA Row --}}
+                    <div class="flex items-center justify-between opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100">
+                        <span class="text-white/70 text-[11px] font-bold uppercase tracking-widest">Explore Branch</span>
+                        <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center group-hover:bg-white group-hover:text-primary transition-colors duration-300">
+                            <span class="material-symbols-outlined text-white group-hover:text-primary text-[18px] transition-colors duration-300">arrow_forward</span>
                         </div>
-                        <div class="absolute inset-0 border-2 border-white/0 group-hover:border-white/20 rounded-[2rem] transition-all duration-500 m-4"></div>
                     </div>
                 </div>
+
+                {{-- Corner border accent on hover --}}
+                <div class="absolute inset-4 border border-white/0 group-hover:border-white/15 rounded-2xl transition-all duration-700"></div>
+            </a>
             @endforeach
+        </div>
+
+        {{-- Stats row below --}}
+        <div class="grid grid-cols-3 gap-6 mt-12 pt-12 border-t border-outline-variant/20">
+            <div class="text-center">
+                <p class="font-headline-sm text-3xl text-primary mb-1">3+</p>
+                <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Premium Locations</p>
+            </div>
+            <div class="text-center border-x border-outline-variant/20">
+                <p class="font-headline-sm text-3xl text-primary mb-1">500+</p>
+                <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Luxury Products</p>
+            </div>
+            <div class="text-center">
+                <p class="font-headline-sm text-3xl text-primary mb-1">10K+</p>
+                <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Happy Clients</p>
+            </div>
         </div>
     </div>
 </section>
@@ -116,7 +179,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div class="p-8 bg-white border border-outline-variant/30 relative">
                 <span class="material-symbols-outlined text-primary-fixed text-4xl absolute -top-5 left-1/2 -translate-x-1/2 bg-white px-2">format_quote</span>
-                <p class="italic text-on-surface-variant font-body-md mb-6 pt-4">"Angels  Beauty has transformed my daily skincare routine. The authenticity of the products is unmatched in Dar."</p>
+                <p class="italic text-on-surface-variant font-body-md mb-6 pt-4">"Niffer  Beauty has transformed my daily skincare routine. The authenticity of the products is unmatched in Dar."</p>
                 <div class="mt-4">
                     <p class="font-bold text-on-surface uppercase text-xs tracking-widest">Amina Juma</p>
                     <p class="text-[10px] text-primary">Gold Member</p>

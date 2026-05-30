@@ -12,6 +12,11 @@ class OrderController extends Controller
     {
         $query = Order::with('user');
 
+        // Branch-Manager Restricted View
+        if (auth()->user()->hasRole('branch-manager')) {
+            $query->where('branch_id', auth()->user()->branch_id);
+        }
+
         // Filtering
         if ($request->status) {
             $query->where('status', $request->status);
@@ -31,6 +36,10 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
+        if (auth()->user()->hasRole('branch-manager') && $order->branch_id !== auth()->user()->branch_id) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $order->load(['items.product', 'user', 'rider']);
         return view('admin.orders.show', compact('order'));
     }
