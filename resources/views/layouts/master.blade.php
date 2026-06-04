@@ -109,88 +109,63 @@
 <body class="bg-background text-on-background font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
 <!-- Top Navigation Bar -->
 <!-- Top Navigation Bar -->
-<nav class="bg-white/90 dark:bg-on-background/90 backdrop-blur-xl text-on-surface docked full-width top-0 sticky z-50 border-b border-outline-variant/10 shadow-sm transition-all duration-500">
-    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-3 md:py-4">
-        <div class="flex justify-between items-center gap-8">
+<!-- Top Navigation Bar (Sephora Style) -->
+<nav class="bg-white dark:bg-on-background text-on-surface border-b border-outline-variant/10 shadow-sm transition-all duration-500">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-4 lg:py-6">
+        <div class="flex items-center justify-between gap-6 lg:gap-10">
             <!-- Brand Logo -->
-            <a class="flex flex-col group" href="{{ route('home') }}">
-                <span class="font-headline-md text-3xl md:text-4xl tracking-tighter text-on-surface group-hover:text-primary transition-all duration-500 transform group-active:scale-95 leading-none">Niffer</span>
-                <span class="text-[10px] uppercase font-black tracking-[0.4em] text-primary mt-1 opacity-80 group-hover:opacity-100 transition-opacity">Cosmetic</span>
+            <a class="flex flex-col group flex-shrink-0" href="{{ route('home') }}">
+                <span class="font-headline-md text-3xl lg:text-4xl tracking-[0.2em] uppercase font-black text-on-surface transition-all duration-500 leading-none">Niffer</span>
             </a>
 
-            <!-- Main Navigation (Config-Driven Mega Menu) -->
-            <div class="hidden xl:flex items-center gap-2">
-                @foreach($megaMenuData as $key => $category)
-                    <div class="relative group py-4">
-                        <a href="{{ route('category.show', $key) }}" class="flex items-center gap-1.5 px-4 py-2 rounded-xl font-label-md text-on-surface-variant group-hover:text-primary group-hover:bg-primary-container/10 transition-all duration-300">
-                            {{ $category['label'] }}
-                            <span class="material-symbols-outlined text-[16px] group-hover:rotate-180 transition-transform duration-300">expand_more</span>
-                        </a>
-
-                        <!-- Mega Dropdown Panel -->
-                        <div class="absolute top-full left-0 mt-0 w-[600px] bg-white border border-outline-variant/30 shadow-2xl rounded-b-[2rem] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-500 z-50 overflow-hidden transform translate-y-4 group-hover:translate-y-0">
-                            <div class="flex">
-                                <!-- Left Info Section -->
-                                <div class="w-1/3 bg-surface-container-low p-8 border-r border-outline-variant/30">
-                                    <h3 class="font-headline-sm text-2xl text-on-surface mb-2">{{ $category['label'] }}</h3>
-                                    <p class="text-xs text-on-surface-variant leading-relaxed mb-6 opacity-70">{{ $category['description'] }}</p>
-                                    <a href="{{ route('category.show', $key) }}" class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary hover:gap-4 transition-all">
-                                        Explore All <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                                    </a>
-                                </div>
-                                <!-- Right Subcategories Section -->
-                                <div class="w-2/3 p-8 grid grid-cols-2 gap-y-4 gap-x-8">
-                                    @foreach($category['subcategories'] as $sub)
-                                        <a href="/category/{{ $key }}/{{ $sub['slug'] }}" class="flex items-center gap-2 group/item">
-                                            <div class="w-1.5 h-1.5 rounded-full bg-outline-variant group-hover/item:bg-primary transition-colors"></div>
-                                            <span class="text-sm text-on-surface-variant group-hover/item:text-primary group-hover/item:font-bold transition-all">{{ $sub['name'] }}</span>
-                                        </a>
-                                    @endforeach
-                                </div>
-                            </div>
-                            <!-- Bottom Banner (Optional) -->
-                            <div class="bg-primary/5 px-8 py-3 flex justify-between items-center">
-                                <span class="text-[9px] uppercase font-black tracking-tighter text-primary opacity-60">Free shipping on all {{ $category['label'] }} orders over 50,000 TZS</span>
-                                <span class="material-symbols-outlined text-sm text-primary">verified</span>
-                            </div>
-                        </div>
+            <!-- Search Bar (Pill Shape) -->
+            <div class="hidden md:flex flex-grow max-w-2xl relative group">
+                <form action="{{ route('products.index') }}" method="GET" class="w-full">
+                    <div class="relative flex items-center">
+                        <span class="material-symbols-outlined absolute left-5 text-on-surface-variant/60 group-focus-within:text-primary transition-colors">search</span>
+                        <input name="q" value="{{ request('q') }}" class="w-full bg-surface-container-low/50 border border-on-surface-variant/20 hover:border-on-surface-variant/40 focus:border-primary focus:ring-4 focus:ring-primary/5 rounded-full py-2.5 lg:py-3.5 pl-14 pr-6 text-sm font-medium transition-all" placeholder="Search brands, products, skin goals..."/>
                     </div>
-                @endforeach
-                
-                <a href="{{ route('customer.loyalty') }}" class="ml-4 flex items-center gap-2 px-5 py-2 bg-pink-50/50 text-pink-600 rounded-full font-black text-[11px] uppercase tracking-widest hover:bg-pink-600 hover:text-white transition-all duration-500 shadow-sm shadow-pink-100 group">
-                    <span class="material-symbols-outlined text-[18px] group-hover:rotate-12 transition-transform">workspace_premium</span>
-                    Rewards
-                </a>
+                </form>
             </div>
 
-            <!-- Actions Wrapper -->
-            <div class="flex items-center gap-6 flex-1 justify-end max-w-2xl">
-                <!-- Branch Switcher -->
-                <div class="relative group hidden sm:block">
-                    <button class="flex items-center gap-3 px-5 py-2.5 bg-surface-container-low border border-outline-variant/20 rounded-2xl hover:bg-white hover:shadow-xl hover:shadow-primary-container/10 transition-all duration-500 group">
-                        <div class="w-8 h-8 rounded-xl bg-primary-container/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                            <span class="material-symbols-outlined text-[18px]">location_on</span>
-                        </div>
-                        <div class="flex flex-col items-start min-w-[100px]">
-                            <span class="text-[8px] uppercase font-black text-on-surface-variant tracking-tighter leading-none mb-1 opacity-60">Your Branch</span>
-                            <span class="text-[11px] font-bold text-on-surface truncate max-w-[120px]">{{ session('active_branch_name', 'Select Branch') }}</span>
-                        </div>
-                        <span class="material-symbols-outlined text-[18px] text-on-surface-variant group-hover:rotate-180 transition-transform">expand_more</span>
-                    </button>
-                    <!-- Dropdown Menu -->
-                    <div class="absolute top-full right-0 mt-4 w-72 bg-white border border-outline-variant shadow-2xl rounded-[1.5rem] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-500 z-50 overflow-hidden transform translate-y-2 group-hover:translate-y-0">
-                        <div class="p-6 bg-surface-container-low border-b border-outline-variant/30">
-                            <h4 class="text-[10px] uppercase font-black text-primary tracking-[0.2em]">Select Destination</h4>
+            <!-- Header Actions -->
+            <div class="flex items-center gap-1 lg:gap-6 flex-shrink-0">
+                <!-- AI Beauty Chat -->
+                <button onclick="toggleBeautyAI()" class="hidden xl:flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-surface-container-low transition-all group">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-pink-500/10 to-purple-500/10 flex items-center justify-center relative">
+                        <span class="material-symbols-outlined text-pink-600 group-hover:rotate-12 transition-transform">auto_awesome</span>
+                        <span class="absolute -top-1 -right-1 flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
+                        </span>
+                    </div>
+                    <div class="flex flex-col items-start leading-tight">
+                        <span class="text-[11px] font-bold">AI Beauty Chat</span>
+                        <span class="text-[9px] bg-black text-white px-1.5 py-0.5 rounded font-black uppercase tracking-tighter">New</span>
+                    </div>
+                </button>
+
+                <!-- Store & Delivery -->
+                <div class="relative group hidden lg:flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-surface-container-low transition-all">
+                    <span class="material-symbols-outlined text-2xl text-on-surface-variant">store</span>
+                    <div class="flex flex-col items-start leading-tight">
+                        <span class="text-[11px] font-bold">Shop Store & Delivery</span>
+                        <span class="text-[9px] text-on-surface-variant font-medium underline cursor-pointer">{{ session('active_branch_name', 'Choose your store & location') }}</span>
+                    </div>
+                    <!-- Branch Dropdown -->
+                    <div class="absolute top-full right-0 mt-2 w-72 bg-white border border-outline-variant shadow-2xl rounded-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 overflow-hidden translate-y-2 group-hover:translate-y-0">
+                        <div class="p-4 bg-surface-container-low border-b border-outline-variant/30">
+                            <h4 class="text-[9px] uppercase font-black text-primary tracking-[0.15em]">Select Branch</h4>
                         </div>
                         <div class="max-h-[300px] overflow-y-auto">
                             @foreach($all_branches as $branch)
-                                <a href="{{ route('branches.switch', $branch->slug) }}" class="flex items-center gap-4 px-6 py-4 hover:bg-primary-container/10 transition-all {{ session('active_branch_id') == $branch->id ? 'bg-primary-container/5 border-l-4 border-primary' : '' }}">
+                                <a href="{{ route('branches.switch', $branch->slug) }}" class="flex items-center gap-3 px-4 py-3 hover:bg-primary/5 transition-all {{ session('active_branch_id') == $branch->id ? 'bg-primary/5' : '' }}">
                                     <div class="flex-1">
-                                        <p class="font-bold text-on-surface text-sm">{{ $branch->name }}</p>
+                                        <p class="font-bold text-on-surface text-[12px]">{{ $branch->name }}</p>
                                         <p class="text-[10px] text-on-surface-variant">{{ $branch->location }}</p>
                                     </div>
                                     @if(session('active_branch_id') == $branch->id)
-                                        <span class="material-symbols-outlined text-primary text-sm">verified</span>
+                                        <span class="material-symbols-outlined text-primary text-sm">check_circle</span>
                                     @endif
                                 </a>
                             @endforeach
@@ -198,53 +173,127 @@
                     </div>
                 </div>
 
-                <!-- Interactive Search Dropdown -->
-                <div class="relative group">
-                    <button class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-primary-container/10 text-on-surface-variant hover:text-primary transition-all duration-300">
-                        <span class="material-symbols-outlined">search</span>
-                    </button>
-                    <!-- Search Panel -->
-                    <div class="absolute top-full right-0 mt-4 w-[350px] bg-white border border-outline-variant/30 shadow-2xl rounded-[2rem] opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-500 z-50 p-6 transform translate-y-4 group-hover:translate-y-0 focus-within:translate-y-0 mx-4 md:mx-0">
-                        <div class="mb-4 flex items-center justify-between">
-                            <h4 class="text-[10px] uppercase font-black text-primary tracking-[0.2em]">Find your Radiance</h4>
-                            <span class="material-symbols-outlined text-outline text-sm">auto_awesome</span>
-                        </div>
-                        <form action="{{ route('products.index') }}" method="GET">
-                            <div class="relative items-center flex">
-                                <span class="material-symbols-outlined absolute left-4 text-primary">search</span>
-                                <input name="q" value="{{ request('q') }}" class="w-full bg-surface-container-low border-none focus:ring-2 focus:ring-primary/20 rounded-2xl py-4 pl-12 pr-4 text-label-md font-medium" placeholder="Search brands, scents, or skin goals..." autofocus/>
-                            </div>
-                        </form>
-                        <div class="mt-4 flex flex-wrap gap-2">
-                            <p class="text-[9px] text-on-surface-variant font-bold uppercase w-full mb-1 opacity-60">Trending Searches:</p>
-                            <a href="/search?q=fragrance" class="text-[10px] bg-surface-container px-3 py-1.5 rounded-full hover:bg-primary/10 hover:text-primary transition-colors">Dior Scent</a>
-                            <a href="/search?q=serum" class="text-[10px] bg-surface-container px-3 py-1.5 rounded-full hover:bg-primary/10 hover:text-primary transition-colors">Vitamin C</a>
-                            <a href="/search?q=sunscreen" class="text-[10px] bg-surface-container px-3 py-1.5 rounded-full hover:bg-primary/10 hover:text-primary transition-colors">SPF 50+</a>
-                        </div>
+                <!-- Services & Events -->
+                <a href="{{ route('customer.loyalty') }}" class="hidden lg:flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-surface-container-low transition-all">
+                    <span class="material-symbols-outlined text-2xl text-on-surface-variant">calendar_month</span>
+                    <div class="flex flex-col items-start leading-tight">
+                        <span class="text-[11px] font-bold">Services & Events</span>
                     </div>
+                </a>
+
+                <!-- Account / Sign In -->
+                <div class="relative group">
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-surface-container-low transition-all">
+                        <span class="material-symbols-outlined text-[32px] text-on-surface-variant">person</span>
+                        <div class="hidden xl:flex flex-col items-start leading-tight">
+                            <span class="text-[11px] font-bold">{{ Auth::check() ? Auth::user()->name : 'Sign In' }}</span>
+                            @if(!Auth::check())
+                                <span class="text-[9px] text-on-surface-variant font-medium">for FREE Shipping 🚚</span>
+                            @else
+                                <span class="text-[9px] text-primary font-bold">My Account</span>
+                            @endif
+                        </div>
+                    </a>
                 </div>
 
-                <!-- Icon Buttons -->
-                <div class="flex items-center gap-3">
-                    <a href="{{ route('customer.wishlist') }}" class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-pink-50 text-on-surface-variant hover:text-pink-600 transition-all duration-300">
-                        <span class="material-symbols-outlined">favorite</span>
-                    </a>
-                    <a href="{{ route('cart.index') }}" class="relative w-10 h-10 flex items-center justify-center rounded-xl hover:bg-primary-container/10 text-on-surface-variant hover:text-primary transition-all duration-300">
-                        <span class="material-symbols-outlined">shopping_bag</span>
-                        @if(session('cart') && count(session('cart')) > 0)
-                            <span class="absolute -top-1 -right-1 bg-primary text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-lg animate-bounce">
-                                {{ count(session('cart')) }}
-                            </span>
-                        @endif
-                    </a>
-                    <a href="{{ route('dashboard') }}" class="w-10 h-10 flex items-center justify-center rounded-xl bg-on-background text-white hover:bg-primary hover:shadow-xl transition-all duration-500">
-                        <span class="material-symbols-outlined">person</span>
-                    </a>
-                </div>
+                <!-- Heart Icon -->
+                <a href="{{ route('customer.wishlist') }}" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low text-on-surface-variant transition-all relative">
+                    <span class="material-symbols-outlined text-2xl">favorite</span>
+                </a>
+
+                <!-- Cart Icon -->
+                <a href="{{ route('cart.index') }}" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low text-on-surface-variant transition-all relative">
+                    <span class="material-symbols-outlined text-2xl">shopping_basket</span>
+                    @if(session('cart') && count(session('cart')) > 0)
+                        <span class="absolute top-1 right-1 bg-black text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-lg">
+                            {{ count(session('cart')) }}
+                        </span>
+                    @endif
+                </a>
             </div>
         </div>
     </div>
 </nav>
+
+<!-- Category Navigation Bar -->
+<div class="bg-black text-white sticky top-0 z-40 hidden xl:block border-b border-white/5">
+    <div class="max-w-container-max mx-auto px-margin-desktop">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                @foreach($megaMenuData as $key => $category)
+                    <div class="relative group">
+                        <a href="{{ route('category.show', $key) }}" class="flex items-center gap-1 px-5 py-4 text-[11px] font-bold uppercase tracking-widest transition-all duration-300 group-hover:bg-white group-hover:text-black {{ $key === 'sale' ? 'text-red-500' : 'text-white' }}">
+                            {{ $category['label'] }}
+                            @if(isset($category['subcategories']) || isset($category['sections']))
+                                <span class="material-symbols-outlined text-[14px] opacity-50 group-hover:rotate-180 transition-transform duration-300">expand_more</span>
+                            @endif
+                        </a>
+
+                        <!-- Dropdown Menu -->
+                        <div class="absolute top-full left-0 w-max min-w-[280px] bg-white text-on-surface shadow-[0_20px_50px_rgba(0,0,0,0.3)] border-b-2 border-primary opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-1 group-hover:translate-y-0">
+                            @if(isset($category['is_mega']) && $category['is_mega'])
+                                <!-- Complex Mega Menu -->
+                                <div class="p-8 flex gap-12">
+                                    @foreach($category['sections'] as $title => $links)
+                                        <div class="flex flex-col gap-4">
+                                            <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-primary border-b border-primary/10 pb-2">{{ $title }}</h4>
+                                            <div class="flex flex-col gap-2">
+                                                @foreach($links as $link)
+                                                    <a href="/category/{{ $key }}/{{ $link['slug'] }}" class="flex items-center justify-between gap-8 group/link">
+                                                        <span class="text-sm text-on-surface-variant group-hover/link:text-primary transition-colors whitespace-nowrap">{{ $link['name'] }}</span>
+                                                        @if(isset($link['icon']))
+                                                            <span class="material-symbols-outlined text-sm text-primary opacity-0 group-hover/link:opacity-100 transition-all transform -translate-x-2 group-hover/link:translate-x-0">{{ $link['icon'] }}</span>
+                                                        @endif
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @elseif(isset($category['subcategories']))
+                                <!-- Simple Dropdown -->
+                                <div class="p-6">
+                                    <div class="mb-4">
+                                        <h3 class="font-headline-sm text-xl text-on-surface">{{ $category['label'] }}</h3>
+                                        <p class="text-[10px] text-on-surface-variant opacity-70">{{ $category['description'] }}</p>
+                                    </div>
+                                    <div class="grid grid-cols-1 gap-y-2">
+                                        @foreach($category['subcategories'] as $sub)
+                                            <a href="/category/{{ $key }}/{{ $sub['slug'] }}" class="flex items-center gap-3 group/item">
+                                                <div class="w-1 h-1 rounded-full bg-primary/30 group-hover/item:bg-primary transition-all group-hover/item:scale-150"></div>
+                                                <span class="text-sm text-on-surface-variant group-hover/item:text-primary transition-colors">{{ $sub['name'] }}</span>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                    <a href="{{ route('category.show', $key) }}" class="mt-6 inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-primary hover:gap-4 transition-all pt-4 border-t border-outline-variant/20 w-full">
+                                        Shop All <span class="material-symbols-outlined text-sm">arrow_right_alt</span>
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <a href="{{ route('customer.loyalty') }}" class="flex items-center gap-2 px-4 py-2 bg-primary/20 text-white rounded-full font-black text-[9px] uppercase tracking-widest hover:bg-primary transition-all duration-500 group">
+                <span class="material-symbols-outlined text-[16px] group-hover:rotate-12 transition-transform">workspace_premium</span>
+                Rewards
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile Category Scroll -->
+<div class="xl:hidden bg-black text-white overflow-x-auto whitespace-nowrap scrollbar-hide py-3 px-4 border-b border-white/5 sticky top-0 z-40">
+    <div class="flex gap-6 items-center">
+        @foreach($megaMenuData as $key => $category)
+            <a href="{{ route('category.show', $key) }}" class="text-[10px] font-bold uppercase tracking-widest {{ $key === 'sale' ? 'text-red-500' : '' }}">
+                {{ $category['label'] }}
+            </a>
+        @endforeach
+    </div>
+</div>
+
 <main class="relative">
     <!-- Quick Access Navigation (Hidden on Home) -->
     @if(!request()->routeIs('home') && !request()->is('admin*'))
